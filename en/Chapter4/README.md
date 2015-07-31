@@ -348,6 +348,8 @@ We have seen the concept of stepwise refinement.
 
 We have seen how to replace simple statements with compound statements and blocks.
 
+{{ book.Chapter5 }}
+
 ###Exercises
 
 4.7 Extend our line breaking program to cope with lines longer than 120 characters.
