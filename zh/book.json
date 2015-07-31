@@ -1,3 +1,28 @@
 {
-  "version": "2.2.0"
+	"variables": {
+	  "zh-Chapter1": "##[To 第一章](../Chapter1/README.md)",
+	  "zh-Chapter2": "##[To 第二章](../Chapter2/README.md)",
+	  "zh-Chapter3": "##[To 第三章](../Chapter3/README.md)",
+	  "zh-Chapter4": "##[To 第四章](../Chapter4/README.md)",
+	  "zh-Chapter5": "##[To 第五章](../Chapter5/README.md)",
+	  "zh-Chapter6": "##[To 第六章](../Chapter6/README.md)",
+	  "zh-Chapter7": "##[To 第七章](../Chapter7/README.md)",
+	  "zh-Chapter8": "##[To 第八章](../Chapter8/README.md)",
+	  "zh-Chapter9": "##[To 第九章](../Chapter9/README.md)",
+	  "zh-Chapter10": "##[To 第十章](../Chapter10/README.md)",
+	  "zh-Chapter11": "##[To 第十一章](../Chapter11/README.md)",
+	  "zh-Chapter12": "##[To 第十二章](../Chapter12/README.md)",
+	  "zh-Chapter13": "##[To 第十三章](../Chapter13/README.md)",
+	  "zh-Chapter14": "##[To 第十四章](../Chapter14/README.md)",
+	  "zh-Chapter15": "##[To 第十五章](../Chapter15/README.md)",
+	  "zh-Chapter16": "##[To 第十六章](../Chapter16/README.md)",
+	  "zh-Chapter17": "##[To 第十七章](../Chapter17/README.md)",
+	  "zh-Chapter18": "##[To 第十八章](../Chapter18/README.md)",
+	  "zh-Chapter19": "##[To 第十九章](../Chapter19/README.md)",
+	  "zh-Chapter20": "##[To 第二十章](../Chapter20/README.md)",
+	  "zh-AppendixA": "##[To 附录A](../AppendixA/README.md)",
+	  "zh-AppendixB": "##[To 附录B](../AppendixB/README.md)",
+	  "zh-AppendixC": "##[To 附录C](../AppendixC/README.md)",
+	  "zh-AppendixD": "##[To 附录D](../AppendixD/README.md)"
+  }
 }
