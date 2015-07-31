@@ -14,8 +14,8 @@ Simula语言是面向对象的鼻祖语言，出于兴趣，出去对翻译技�
 [Simula语言教程](http://fkysly.github.io/learn-simula)
 
 ###如何运行和开发
-1. 安装gitbook-cli，利用它安装gitbook v2.2.0。
-2. 根目录下运行gitbook serve，可以开启本地服务器，访问http://localhost:4000，可以看到效果。
+1. 安装gitbook-cli，利用它安装gitbook v2.2.0。(也可以不看效果，照着英文版本的直接翻译就行了。)
+2. 根目录下运行gitbook serve，可以开启本地服务器，访问http://localhost:4000，可以看到效果。(也可以不看效果，照着英文版本的直接翻译就行了。)
 3. 根目录下运行gitbook build，可以构建项目，会生成_book目录，可以进行部署。
 4. 根目录下运行gulp或者gulp deploy，可以部署到git的远程仓库下的gh-pages分支。（如果你fork，那么是你自己的git远程仓库地址哦）
 5. 部署完毕之后，打开http://(your_name).github.io/(repo_name)即可访问。
