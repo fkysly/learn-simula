@@ -5,7 +5,7 @@ Simula语言教程以及中文翻译项目
 
 ###关于
 
-Simula语言是面向对象的鼻祖语言，处于兴趣，我决定整理一下这个语言的教程并进行翻译。
+Simula语言是面向对象的鼻祖语言，出于兴趣，出去对翻译技术文档的热情，我决定整理一下这个语言的教程并进行翻译。也希望想练习英文、想试试看翻译技术文档、想提高英文水平的同学一起来参与这个项目，最后的翻译结果大家都可以相互review，相互学习。
 
 原文地址：
 [An Introduction to Programming in Simula](http://www.macs.hw.ac.uk/~rjp/bookhtml/) by Rob Pooley
