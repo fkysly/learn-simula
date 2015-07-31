@@ -11,7 +11,7 @@ Simula语言是面向对象的鼻祖语言，处于兴趣，我决定整理一�
 [An Introduction to Programming in Simula](http://www.macs.hw.ac.uk/~rjp/bookhtml/) by Rob Pooley
 
 ###线上预览地址
-[Simula语言教程](fkysly.github.io/learn-simula)
+[Simula语言教程](http://fkysly.github.io/learn-simula)
 
 ###如何运行和开发
 1. 安装gitbook-cli，利用它安装gitbook v2.2.0。
