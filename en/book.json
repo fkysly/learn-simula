@@ -1,3 +1,28 @@
 {
-  "version": "2.2.0"
+	"variables": {
+	  "Chapter1": "##[To Chapter 1](../Chapter1/README.md)",
+	  "Chapter2": "##[To Chapter 2](../Chapter2/README.md)",
+	  "Chapter3": "##[To Chapter 3](../Chapter3/README.md)",
+	  "Chapter4": "##[To Chapter 4](../Chapter4/README.md)",
+	  "Chapter5": "##[To Chapter 5](../Chapter5/README.md)",
+	  "Chapter6": "##[To Chapter 6](../Chapter6/README.md)",
+	  "Chapter7": "##[To Chapter 7](../Chapter7/README.md)",
+	  "Chapter8": "##[To Chapter 8](../Chapter8/README.md)",
+	  "Chapter9": "##[To Chapter 9](../Chapter9/README.md)",
+	  "Chapter10": "##[To Chapter 10](../Chapter10/README.md)",
+	  "Chapter11": "##[To Chapter 11](../Chapter11/README.md)",
+	  "Chapter12": "##[To Chapter 12](../Chapter12/README.md)",
+	  "Chapter13": "##[To Chapter 13](../Chapter13/README.md)",
+	  "Chapter14": "##[To Chapter 14](../Chapter14/README.md)",
+	  "Chapter15": "##[To Chapter 15](../Chapter15/README.md)",
+	  "Chapter16": "##[To Chapter 16](../Chapter16/README.md)",
+	  "Chapter17": "##[To Chapter  17](../Chapter17/README.md)",
+	  "Chapter18": "##[To Chapter 18](../Chapter18/README.md)",
+	  "Chapter19": "##[To Chapter 19](../Chapter19/README.md)",
+	  "Chapter20": "##[To Chapter 20](../Chapter20/README.md)",
+	  "AppendixA": "##[To Appendix A](../AppendixA/README.md)",
+	  "AppendixB": "##[To Appendix B](../AppendixB/README.md)",
+	  "AppendixC": "##[To Appendix C](../AppendixC/README.md)",
+	  "AppendixD": "##[To Appendix D](../AppendixD/README.md)"
+  }
 }
