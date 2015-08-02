@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="4" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="4" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -500,29 +500,30 @@ The important thing about writing large programs which perform complex functions
 When the system we are designing gets bigger, this approach is not good enough. It would be very difficult to write down now all the parts of our formatting and editing system in this kind of detail, especially as we have not said exactly what we want the system to do. It is much more sensible to start at the highest level, with our overall system, and break this down step by step until we reach components which are simple enough to write in SIMULA in detail. This approach is called &quot;top down&quot; design.</p>
 <p>Here is a quick sketch of the design of our total system, concentrating on the line formatting programs we are about to write. This shows a major advantage of top down design: since the low level components are designed to operate as independently as possible, we can write and test them separately and then build up our overall system by combining tested units. The only important parts of each component are its function - what it does - and how it receives and passes on information from and to other components - its &quot;interface&quot;.</p>
 <p>Figure 4.1: Overall top down design of Formatter/Editor</p>
-<pre><code>                  EDITOR/FORMATTER
-                  ----------------
-      ___________________I________
-      EDITOR             FORMATTER
-      ------             ---------
-           __________________I___________________________
-           CONTENTS  PREFACE         CHAPTERS       INDEX
-           --------  -------         --------       -----
-           _____________________________I______
-           TITLE                          PAGES
-           -----                          -----
-             _______________________________I______________
-             HEADING        PARAGRAPHS            NUMBERING
-             -------        ----------            ---------
-          _______________________I_______
-          INDENTING                 LINES
-          ---------                 -----
-</code></pre><p>   <strong><strong><strong><strong><strong><strong><strong><strong><strong><em>_</em></strong></strong></strong></strong></strong></strong></strong></strong></strong>I<strong><strong><strong><strong><em>__</em></strong></strong></strong></strong>
-   CLEANING   LEFT MARGIN   LENGTH   RIGHT JUSTIFYING   SPACING</p>
-<hr>
-<p> <strong>__</strong>I<strong>__</strong></p>
-<h2 id="-double-spaces"> DOUBLE SPACES</h2>
-<p>This type of design allows us to begin work now, without losing sight of the overall plan. It is also possible to design components now and improve on them later if we discover better ways of implementing them. Most importantly this form of design makes it easier to change parts of the system without upsetting other parts, since the degree of interdependence of components can be seen easily.
+<pre><code>                        EDITOR/FORMATTER
+                        ----------------
+            ___________________I________
+            EDITOR             FORMATTER
+            ------             ---------
+                 __________________I___________________________
+                 CONTENTS  PREFACE         CHAPTERS       INDEX
+                 --------  -------         --------       -----
+                 _____________________________I______
+                 TITLE                          PAGES
+                 -----                          -----
+                   _______________________________I______________
+                   HEADING        PARAGRAPHS            NUMBERING
+                   -------        ----------            ---------
+                _______________________I_______
+                INDENTING                 LINES
+                ---------                 -----
+     _______________________________________I____________________
+     CLEANING   LEFT MARGIN   LENGTH   RIGHT JUSTIFYING   SPACING
+     --------   -----------   ------   ----------------   -------
+   ______I______
+   DOUBLE SPACES
+   -------------
+</code></pre><p>This type of design allows us to begin work now, without losing sight of the overall plan. It is also possible to design components now and improve on them later if we discover better ways of implementing them. Most importantly this form of design makes it easier to change parts of the system without upsetting other parts, since the degree of interdependence of components can be seen easily.
 We shall fill in other branches as we learn more of SIMULA&apos;s capabilities. In fact we shall not finish the system. No piece of software is ever so good that extra or better features might not improve it. You should be able to add such refinements for yourself before we finish.</p>
 <p>One last point about top down designs: in reality it is impossible to start with a complete plan, along the lines shown, and write the final program from it. The process of implementing the program in SIMULA will show errors in it and suggest better solutions to some problems. Thus, we can change the design in the light of experience, but we should never change the program without making the same changes in the design. It is surprising how quickly you can forget what the program really does if you have not got a clear description of it. It is even worse if someone else has to look after a program written by you. Since we are writing &quot;real&quot; programs, we must do the job properly.</p>
 <h3 id="some-simple-starting-points">Some simple starting points</h3>
@@ -542,24 +543,24 @@ A good way of writing programs is to write them in SIMULA as far as we can at th
         OutText(T);
         OutImage
      end
-</code></pre><p>Example 4.5: More complete version of double space remover.
-      begin
-         text T;
-         InImage;      ! Read into SysIn.Image;
-         inspect SysIn do    ! To use SysIn.Image, not SysOut.Image;
-         begin
-            T :- Blanks(Image.Length);   ! Create a text of the required length;
-            T := Image;      ! Copy in the contents of SysIn.Image;
-         end;
-         if first character in T =&apos; &apos; then
-         begin
-            if next character in T =&apos; &apos; then
-               remove the first character from T
-         end;
-         OutText(T);
-         OutImage
-      end
-We shall use italics in programs in this way from now on.</p>
+</code></pre><p>Example 4.5: More complete version of double space remover.</p>
+<pre><code>  begin
+     text T;
+     InImage;      ! Read into SysIn.Image;
+     inspect SysIn do    ! To use SysIn.Image, not SysOut.Image;
+     begin
+        T :- Blanks(Image.Length);   ! Create a text of the required length;
+        T := Image;      ! Copy in the contents of SysIn.Image;
+     end;
+     if first character in T =&apos; &apos; then
+     begin
+        if next character in T =&apos; &apos; then
+           remove the first character from T
+     end;
+     OutText(T);
+     OutImage
+  end
+</code></pre><p>We shall use italics in programs in this way from now on.</p>
 <p>There is one thing about the use of if statements which this program shows, even in this unfinished form. The then in an if statement must be followed by a statement. The syntax of SIMULA states that this following statement must not be a second if statement and so the second test is made by an if statement enclosed in a begin-end pair. In other words the statement following the then is a compound statement containing a single if statement. Any sequence of one or more statements, not containing declarations, and enclosed in the keywords begin and end is a compound statement and may be used, amongst other things, to hide a second if statement, following a then. Compound statements are explained more fully at the end of this chapter.</p>
 <p>The condition in the second if statement is only checked if the condition in the first if statement is true. Thus we only check if the second character is a space after we have found that the first one is.</p>
 <p>This can be extended so that the statement following the second then is an compound statement containing a single if statement, allowing us to check for triple spaces or any combination of three characters we chose. By further extension of this we can check four or any other number of conditions, where each is only checked if all those which precede it are true. This is often referred to as &quot;nesting&quot; if statements inside one another.</p>

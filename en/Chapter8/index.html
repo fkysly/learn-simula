@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="8" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="8" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -674,16 +674,16 @@ Example 8.12: Variations on the for clause.</p>
      for R1:=0.1 step 0.3 until 1.0 do OutFix(R1, 2, 4);
      OutImage
   end
-</code></pre><p>b: Using variables as step and limit values.
-      begin
-         integer I1, I2, I3, I4;
-         I2:=4;
-         I3:=6;
-         I4:=28;
-         for I1:=I2 step I3 until I4 do OutInt (I1, 3);
-         OutImage
-      end</p>
-<h3 id="a-word-of-caution">A word of caution</h3>
+</code></pre><p>b: Using variables as step and limit values.</p>
+<pre><code>  begin
+     integer I1, I2, I3, I4;
+     I2:=4;
+     I3:=6;
+     I4:=28;
+     for I1:=I2 step I3 until I4 do OutInt (I1, 3);
+     OutImage
+  end
+</code></pre><h3 id="a-word-of-caution">A word of caution</h3>
 <p>The three values obtained from the expressions in the step-until sort of for clause are checked each time round the loop. It is possible to assign to them inside the loop, which will disturb the normal sequence of values. In fact some very &quot;clever&quot; programs have been written to exploit this. It is, however, a very unsafe practice and you should normally be very careful not to change the values except in the for clause itself. If you use type procedures in these expressions you may produce unexpected side effects too. Keep your programs simple if you want them to work.</p>
 <h3 id="for-clauses-using-lists-of-values">for clauses using lists of values.</h3>
 <p>The step-until for clause is very useful when we want to increase or decrease the value of the controlled variable by some constant amount. By using a variable as the step value and altering the value of this during the statement following the do, the change in the controlled variable can be varied, but this is rather dangerous and rarely useful. A simpler means of assigning a series of values, which are not obtainable by repeated additions or subtractions of a step value, is to use a list as the for clause. Consider example 8.13.

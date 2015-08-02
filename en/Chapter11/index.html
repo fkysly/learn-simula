@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="11" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="11" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -463,76 +463,77 @@ When classifying things we first group them either very generally, e.g. as anima
          |                            |                            |
 ImageFile class Infile     ImageFile class DirectFile   ImageFile class OutFile
                                                                 |
-                                                     Outfile class PrintFile
+                                                        Outfile class PrintFile
 </code></pre><p>The syntax of a sub-class declaration is very simple. The keyword class is preceded by the name of the parent class. Otherwise the declaration is the same as for a simple class. The new class is said to be &quot;prefixed&quot; by the parent.</p>
 <h3 id="a-word-processing-example">A word processing example</h3>
 <p>We can consider a chapter in a book as a sequence of pages. This sequence can, as we have seen, be represented as an array or as a linked list. In either case we want all the pages to be of the same type. If they are not, they cannot be held together. All items in an array must be of the same type. All items in a linked list are joined by pointers declared as ref(type) variables, with type the same for all. Thus we need a basic class Page.
 Each Page will contain printed blocks. The first Page in each Chapter will have a title block, followed by a sequence of other blocks. The other blocks could contain text or diagrams. A linked list of Print_Block objects can represent the contents of a Page.</p>
 <p>Example 11.1 shows the outline of such a set of classes. The parent class for blocks on a page is Print_Block. It contains a link in the form of ref(Print_Block) Next. It also contains an array of text variables, Contents, representing the lines in the block. Parameters Width and Length are integers representing line length and number of lines in the block, respectively. Each member of the text array is filled with blanks, initially.</p>
 <p>Example 11.1: Representing pages as Print_Block objects.</p>
-<p>   begin
-      class Page;
-      begin</p>
-<pre><code>     class Print_Block(Width,Length);integer Width, Length;
+<pre><code>  begin
+     class Page;
      begin
-        ref(Print_Block)Next;
-        text array Contents(1:Length);
-        integer Count;
-        for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
-     end--of--Print_Block;
 
-     Print_Block class Title_Block(Title);text Title;
-     begin
-        Contents(Length//2):=Title
-     end--of--Title_Block;
-
-     Print_Block class Text_Block;
-     begin
-        for Count:=1 step 1 until Length do
+        class Print_Block(Width,Length);integer Width, Length;
         begin
-           InImage;
-           Contents(Count):=Intext(Width)
-        end
-     end--of--Text_Block;
+           ref(Print_Block)Next;
+           text array Contents(1:Length);
+           integer Count;
+           for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
+        end--of--Print_Block;
 
-     Print_Block class Diagram(Title); text Title;
-     begin
-        Contents(1):=Title
-     end--of--Diagram;
-
-     ref(Print_Block) Head, Tail, New_Block;
-     text Directive;
-     integer Len;
-
-     procedure Add(NewBlock); ref(Print_Block) NewBlock;
-     begin
-        if Head==None then Head :- NewBlock;
-        if Tail=/=None then Tail.Next :- NewBlock;
-         Tail :- NewBlock
-     end++of++Add;
-
-     Directive :- InText(2);
-     while Directive NE &quot;$E&quot; do
-     begin
-        if Directive= &quot;$B&quot; then
+        Print_Block class Title_Block(Title);text Title;
         begin
-           Len := InInt;
-           InImage;
-           Add(new Title_Block(80,Len,InText(80)))
+           Contents(Length//2):=Title
+        end--of--Title_Block;
+
+        Print_Block class Text_Block;
+        begin
+           for Count:=1 step 1 until Length do
+           begin
+              InImage;
+              Contents(Count):=Intext(Width)
+           end
+        end--of--Text_Block;
+
+        Print_Block class Diagram(Title); text Title;
+        begin
+           Contents(1):=Title
+        end--of--Diagram;
+
+        ref(Print_Block) Head, Tail, New_Block;
+        text Directive;
+        integer Len;
+
+        procedure Add(NewBlock); ref(Print_Block) NewBlock;
+        begin
+           if Head==None then Head :- NewBlock;
+           if Tail=/=None then Tail.Next :- NewBlock;
+            Tail :- NewBlock
+        end++of++Add;
+
+        Directive :- InText(2);
+        while Directive NE &quot;$E&quot; do
+        begin
+           if Directive= &quot;$B&quot; then
+           begin
+              Len := InInt;
+              InImage;
+              Add(new Title_Block(80,Len,InText(80)))
+           end
+           else if Directive=&quot;$C&quot; then
+              Add(new Text_Block(80,InInt))
+           else begin
+              Len := InInt;
+              InImage;
+              Add(new Diagram(80,Len,InText(80)))
+           end;
+           Directive :- InText(2)
         end
-        else if Directive=&quot;$C&quot; then
-           Add(new Text_Block(80,InInt))
-        else begin
-           Len := InInt;
-           InImage;
-           Add(new Diagram(80,Len,InText(80)))
-        end;
-        Directive :- InText(2)
-     end
-  end..of..Page;
-  new Page;
-</code></pre><p>   end
-This parent class is used to prefix the three classes representing different types of block on a page. Each contains additional attributes, actions or both. Two contain parameters. Note that these also are additional to those in the parent class.</p>
+     end..of..Page;
+     new Page;
+  end
+</code></pre><p>This parent class is used to prefix the three classes representing different types of block on a page. Each contains additional attributes, actions or both. Two contain parameters. Note that these also are additional to those in the parent class.</p>
 <h3 id="a-few-properties-of-sub-classes">A few properties of sub-classes</h3>
 <p>The program shows some important features of sub-classes.
 The attributes of the prefixing class are normally visible in its sub-classes. As we shall see later there is a way of &quot;hiding&quot; the parent&apos;s attributes. Note that this visibility of local quantities is unlike any other type of block, such as a sub-block or procedure body.
@@ -548,44 +549,46 @@ The directive &quot;$B&quot; means that a Title_Block is required. The number of
 <p>11.1 Add a printing procedure to class Print_Block and use the program to process a source in the required format.
 11.2 By using a linked list to hold lines, remove the need to specify the number of lines in a Text_Block. Use a line breaker to avoid splitting words at the ends of a line.</p>
 <p>Example 11.2: Concatenation .. sub-sub-classes</p>
-<p>   begin
-      class OuterMost(First); text First;
-      begin
-         text OuterText;
-         OuterText :- Copy(&quot;Outermost=first on prefix chain&quot;);
-         OutText(OuterText);
-         OutImage;
-         OutText(First);
-         OutImage
-      end--of--OuterMost;</p>
-<pre><code>  OuterMost class Middle(Second); text Second;
-  begin
-     text MiddleText;
-     MiddleText :- Copy(&quot;Middle=second on prefix chain&quot;);
-     OutText(MiddleText);
-     OutImage;
-     OutText(First);
-     OutText(Second);
-     OutImage
-  end--of--Middle;
+<pre><code>  begin
+     class OuterMost(First); text First;
+     begin
+        text OuterText;
+        OuterText :- Copy(&quot;Outermost=first on prefix chain&quot;);
+        OutText(OuterText);
+        OutImage;
+        OutText(First);
+        OutImage
+     end--of--OuterMost;
 
-  Middle class InnerMost(Third); text Third;
-  begin
-     text InnerText;
-     InnerText :- Copy(&quot;Inner=last on prefix chain&quot;);
-     OutText(InnerText);
-     Outimage;
-     OutText(First);
-     OutText(Second);
-     OutText(Third);
-     OutImage
-  end--of--InnerMost;
+     OuterMost class Middle(Second); text Second;
+     begin
+        text MiddleText;
+        MiddleText :- Copy(&quot;Middle=second on prefix chain&quot;);
+        OutText(MiddleText);
+        OutImage;
+        OutText(First);
+        OutText(Second);
+        OutImage
+     end--of--Middle;
 
-  new OuterMost(&quot;One&quot;);
-  new Middle(&quot;One&quot;,&quot;Two&quot;);
-  new InnerMost(&quot;One&quot;,&quot;Two&quot;,&quot;Three&quot;)
-</code></pre><p>   end<strong>of</strong>program</p>
-<h3 id="sub-sub-classes">Sub-sub-classes</h3>
+     Middle class InnerMost(Third); text Third;
+     begin
+        text InnerText;
+        InnerText :- Copy(&quot;Inner=last on prefix chain&quot;);
+        OutText(InnerText);
+        Outimage;
+        OutText(First);
+        OutText(Second);
+        OutText(Third);
+        OutImage
+     end--of--InnerMost;
+
+     new OuterMost(&quot;One&quot;);
+     new Middle(&quot;One&quot;,&quot;Two&quot;);
+     new InnerMost(&quot;One&quot;,&quot;Two&quot;,&quot;Three&quot;)
+
+  end**of**program
+</code></pre><h3 id="sub-sub-classes">Sub-sub-classes</h3>
 <p>As is clear from the File family tree, a sub-class can prefix its own extensions. The rules given above still apply, except that the parameters, local variables and actions of all three classes are combined in the grandchild, in the order grandparent, parent, grandchild.
 Example 11.2 shows this in a trivial example. Try compiling and running it to see the effects for yourself.</p>
 <p>There is no limit to the number of levels of such prefixing which you may use. The same rules apply with each extension. The combining of attributes and actions in the correct order is called the &quot;concatenation&quot; of the prefixing classes and the final extension.</p>
@@ -638,17 +641,18 @@ In a parent class the use of the identifier always refers to the declaration of 
                                         No1Son
                                         No1Son;
   end**of**program
-</code></pre><p>Example 11.4: The use of inner.
-      begin
-         class Parent;
-         begin
-            OutText(&quot;Before inner&quot;);
-            OutImage;
-            Inner;
-            OutText(&quot;After inner&quot;);
-            OutImage
-         end--of--Parent;</p>
-<pre><code>     Parent class Child;
+</code></pre><p>Example 11.4: The use of inner.</p>
+<pre><code>  begin
+     class Parent;
+     begin
+        OutText(&quot;Before inner&quot;);
+        OutImage;
+        Inner;
+        OutText(&quot;After inner&quot;);
+        OutImage
+     end--of--Parent;
+
+     Parent class Child;
      begin
         OutText(&quot;In the inner class&quot;);
         OutImage
@@ -727,39 +731,40 @@ The operator is checks whether an object is qualified by a particular class. It 
       new ThisClass.
 The operator in makes a less strict check. It will give True if the object is either of the specified class or has that class on its prefix chain. The use of is and in is shown in example 11.5.
 Example 11.5: Use of is and in.</p>
-<p>begin
-         class A;
-         begin
-            integer I;
-         end--of--A;</p>
-<pre><code>     A class A1;
-     begin
-        integer K;
-     end--of--A1;
-
-     A class A2;
-     begin
-        integer L;
-     end--of--A2;
-
-     ref(A) Obj1,Obj2,Obj3,Obj4;
-
-     Obj1 :- new A;
-     Obj2 :- new A1;
-     Obj3 :- new A2;
-
-     for Obj4 :- Obj1,Obj2,Obj3 do
-     begin
-        if Obj4 is A then OutText(&quot;Object is A&quot;) else
-        if Obj4 in A then
+<pre><code>     begin
+        class A;
         begin
-           OutText(&quot;Object in A&quot;);
-           if Obj4 is A1 then OutText(&quot; and is A1&quot;)
-                         else OutText(&quot; and is A2&quot;)
-        end else OutText(&quot;Object is not A and is not in A&quot;);
-        OutImage
-     end
-  end**of**program
+           integer I;
+        end--of--A;
+
+        A class A1;
+        begin
+           integer K;
+        end--of--A1;
+
+        A class A2;
+        begin
+           integer L;
+        end--of--A2;
+
+        ref(A) Obj1,Obj2,Obj3,Obj4;
+
+        Obj1 :- new A;
+        Obj2 :- new A1;
+        Obj3 :- new A2;
+
+        for Obj4 :- Obj1,Obj2,Obj3 do
+        begin
+           if Obj4 is A then OutText(&quot;Object is A&quot;) else
+           if Obj4 in A then
+           begin
+              OutText(&quot;Object in A&quot;);
+              if Obj4 is A1 then OutText(&quot; and is A1&quot;)
+                            else OutText(&quot; and is A2&quot;)
+           end else OutText(&quot;Object is not A and is not in A&quot;);
+           OutImage
+        end
+     end**of**program
 </code></pre><h3 id="exercise">Exercise</h3>
 <p>11.6 Rewrite the text processing program so that it recognises the directive $A. This is followed by a text sequence which is to be printed after all the other blocks. In every other way it is treated as a Text_Block. Use is to test the blocks and print them in the correct order.</p>
 <h3 id="some-extra-features-for-boolean-expressions">Some extra features for Boolean expressions</h3>
@@ -821,14 +826,16 @@ Table 11.1: Effects of Boolean operators.</p>
    NOT B2 =    FALSE    TRUE    FALSE    TRUE
    Combining Boolean operators</p>
 <p>Boolean operators can be combined to form more complicated expressions. The rules for evaluating Boolean expressions are then as follow. All working out is done from left to right.</p>
-<pre><code>  1. All the comparisons are performed and the values True or False put in their places.
-  2. All not operations are carried out.
-  3. All and operations are carried out.
-  4. All or operations are carried out.
-  5. All imp operations are carried out.
-  6. All eqv operations are carried out.
-</code></pre><p>Example 11.10 shows this sequence for an unusually complicated sequence.</p>
-<h3 id="bracketing">Bracketing</h3>
+<ol>
+<li>All the comparisons are performed and the values True or False put in their places.</li>
+<li>All not operations are carried out.</li>
+<li>All and operations are carried out.</li>
+<li>All or operations are carried out.</li>
+<li>All imp operations are carried out.</li>
+<li>All eqv operations are carried out.
+Example 11.10 shows this sequence for an unusually complicated sequence.<h3 id="bracketing">Bracketing</h3>
+</li>
+</ol>
 <p>Parentheses may be placed around any sub-expression. This has the effect of forcing the value of that sub-expression to be fully evaluated before the rest of the main expression and so can override the order given above. This is equivalent to the use of parentheses in arithmetic expressions.
 Example 11.11 shows the effects of bracketing on parts of 11.10. Note that the innermost brackets&apos; contents are evaluated first and so on.</p>
 <p>Example 11.10: Evaluation of complex Boolean expressions.</p>

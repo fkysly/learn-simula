@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="6" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="6" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -546,19 +546,19 @@ This sounds confusing, but is easy to follow in practice. Here is a final versio
 </code></pre><p>Notice that, as well as specifying that T3 is of type text, we have specified that it is name. name is not a type but a mode. When a parameter is defined as of name mode, any assignments to it alter the value of the variable actually passed in the call, rather than a local copy, as would have happened with the other parameters, which are passed by value.
 In fact there are three modes; value, reference and name.</p>
 <p>Where a mode specifier is not given for a parameter, a mode of value or reference is assumed, depending on its type. Some modes are illegal for certain types. Table 6.1 is a complete table of the assumed (usually referred to as default), legal and illegal modes for parameters to procedures.</p>
-<pre><code>Type                Mode      Value Reference Name
+<pre><code>  Type                  Mode      Value   Reference Name
 
-Simple type           Default Illegal Legal
-text                Legal     Default Legal
-Object reference    Illegal Default Legal
-Simple type array   Legal   Default Legal
-Reference type array  Illegal Default Legal
-procedure           Illegal Default Legal
-type procedure        Illegal Default Legal
-label               Illegal Default Legal
-switch                Illegal Default Legal
+  Simple type           Default   Illegal   Legal
+  text                  Legal     Default   Legal
+  Object reference      Illegal   Default   Legal
+  Simple type array     Legal     Default   Legal
+  Reference type array  Illegal   Default   Legal
+  procedure             Illegal   Default   Legal
+  type procedure        Illegal   Default   Legal
+  label                 Illegal   Default   Legal
+  switch                Illegal   Default   Legal
 
-Table 6.1: Modes of transmission for parameter types.
+  Table 6.1: Modes of transmission for parameter types.
 </code></pre><p>A simple type is integer, real, character or Boolean and any long or short variants of them.</p>
 <p>Now we can see that name is always legal and reference is the default for all but simple types. Do not worry about the meaning of those types which are new. We shall consider their use when we encounter them.</p>
 <h3 id="value-parameters">Value parameters</h3>
@@ -706,9 +706,10 @@ Example 6.11 is an example of such a procedure which adds two numbers together a
                OutInt(Result);
                OutImage
             end
-</code></pre><p>Example 6.12: Concatenate as a text procedure.
-          begin</p>
-<pre><code>         text procedure Concatenate(T1, T2); text T1, T2;
+</code></pre><p>Example 6.12: Concatenate as a text procedure.</p>
+<pre><code>      begin
+
+         text procedure Concatenate(T1, T2); text T1, T2;
          begin
             text LocalText;
             LocalText :- Blanks(T1.Length+T2.Length);
@@ -779,8 +780,9 @@ When the procedure identifier occurs on the right hand side of an assignment the
 <h3 id="dangers-of-recursion">Dangers of recursion</h3>
 <p>It is not necessary to have a type procedure to use recursion. There are many instances when non-type procedures can use recursion. It is a vey powerful device. Example 6.14 uses a non-type procedure . It shows the power of recursion and the possible problems of using it without proper thought.
 Example 6.14: The danger of non-terminating recursion.</p>
-<p>begin</p>
-<pre><code>     procedure Numbr(Tex, Num); Text TEX; integer Num;
+<pre><code>  begin
+
+     procedure Numbr(Tex, Num); Text TEX; integer Num;
      begin
         OutText(TEX);
         OutInt(Num);

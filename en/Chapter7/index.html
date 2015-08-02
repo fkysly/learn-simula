@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="7" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="7" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -539,15 +539,15 @@ Purge:
 Values can be: purge/nopurge. Decides whether the physical is to be deleted when Close is called.</p>
 <p>SetAccess is a Boolean procedure with a single text parameter, which must be one of the values given above or bytesize: followed by an integer. This is used to reset the appropriate mode value in the File. Where the mode is unrecognised or inappropriate for the type of file, SetAccess returns False. Otherwise it returns true.
 Table 7.1: Default modes for file types.</p>
-<pre><code>Mode             File type is            Affects
-              In-   Out-     Direct-  
-Shared      shared  noshared  noshared  Open
-Append      N/A     noappend  noappend  Open
-Create      N/A     anycreate nocreate  Open
-Readwrite N/A       N/A     readwrite Open
-Bytesize:n   *         *         *      Open
-Rewind     norewind norewind    N/A   Open/Close
-Purge    nopurge  nopurge     nopurge    Close
+<pre><code>Mode              File type is              Affects
+              In-      Out-     Direct-  
+Shared      shared    noshared  noshared     Open
+Append      N/A       noappend  noappend     Open
+Create      N/A       anycreate nocreate     Open
+Readwrite   N/A         N/A     readwrite    Open
+Bytesize:n   *           *         *         Open
+Rewind      norewind  norewind    N/A      Open/Close
+Purge       nopurge   nopurge   nopurge      Close
 </code></pre><h3 id="inimage">InImage</h3>
 <p>The procedure InImage copies the next record from the external file or device into Image. This is equivalent to a text value assignment. If the external record is shorter than Image.Length then it is copied into the leftmost character locations in Image and the remaining character Positions are filled with spaces. If the external record is longer than Image.Length, calling InImage causes a runtime error to be reported.
 InRecord</p>
@@ -641,7 +641,6 @@ Example 7.4 is a word counting program which uses LastItem.</p>
                OutImage;
                Words.Close
             end
-            begin
 </code></pre><h3 id="item-oriented-input">Item oriented input</h3>
 <p>Some procedures read in the sequence of characters in the real file as an item of a certain type. Most are described in ##<a href="../Chapter8/index.html">To Chapter 8</a>, but here are two useful ones.</p>
 <h3 id="inchar">InChar</h3>
@@ -696,7 +695,6 @@ Since SIMULA specifies that a call on InImage once the last record of the real F
                OutImage;
                Words.Close
             end
-            begin
 </code></pre><h3 id="intext">InText</h3>
 <p>InText is a text procedure, with a single, integer value parameter. Its result is a text containing the next N characters in the real file, where N is the value of its integer parameter. It may include characters from more than one record in the real file, calling InImage as necessary.
 Example 7.6 is a new line splitting program, using InText. Note that it assumes an input file with lines 132 characters long. Note also that it does not deal with blanks at the end of Image.</p>
@@ -943,11 +941,12 @@ The semantic rule for an inspect statement is that any use of an attribute of th
                   Close
                end
             end
-</code></pre><p>Example 7.12: Nested inspect statements.
-                begin
-                   ref(PrintFile) P1;
-                   ref(InFile) I1;</p>
-<pre><code>               P1:-new PrintFile (&quot;OUT&quot;);
+</code></pre><p>Example 7.12: Nested inspect statements.</p>
+<pre><code>            begin
+               ref(PrintFile) P1;
+               ref(InFile) I1;
+
+               P1:-new PrintFile (&quot;OUT&quot;);
                I1:-new InFile (&quot;IN1&quot;);
 
                inspect P1 do

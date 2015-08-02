@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="9" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="9" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -635,7 +635,8 @@ By designing the data structure and the operations to be performed on that struc
 <p>You will probably have noticed that in these examples the procedures InLine and OutLine have not been declared inside the class body of Lab, although they are used only there. This is because they do not refer directly to the data structure which Lab represents. They refer to the more general data structure defined by text and so are declared at the most general level, the program block. This leaves them free for use anywhere in the program that they are useful. ReadLabel and WriteLabel are only useful as part of Lab.</p>
 <p>Example 9.4 uses File objects to allow label lists to be accessed and created. Note carefully the use of MyInput and MyOutput, which allows input and output to be switched between the default Files, SysIn and SysOut, and the user defined ones, using the same procedures.</p>
 <p>Example 9.5: Inserting a numbered label using procedure attributes.</p>
-<pre><code>  begin
+<pre><code>begin
+
    comment*******************************************
    * MyInput and MyOutput replace SysIn and SysOut. *
    * They can be redefined as necessary.            *

@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="3" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="3" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -488,11 +488,12 @@ Example 3.3: A legal mixing of types in an expression.</p>
      OutFix(RealVal,2,6);
      OutImage
   end
-</code></pre><p>Example 3.4: An illegal mixing of types in an expression.
-      begin
-         character CharVal;
-         real RealVal;</p>
-<pre><code>     CharVal := &apos;2&apos;;
+</code></pre><p>Example 3.4: An illegal mixing of types in an expression.</p>
+<pre><code>  begin
+     character CharVal;
+     real RealVal;
+
+     CharVal := &apos;2&apos;;
      RealVal := 69.54;
      RealVal := CharVal + RealVal - &quot;4&quot;;
      OutFix(RealVal,2,6);
@@ -583,15 +584,15 @@ Thus it is quite legal, and meaningful, in SIMULA to write</p>
   end
 </code></pre><p>since the initial value placed in the location identified by IntVal will be printed. This will be the value initially given to all integer locations.
 The values placed in each type of location are given below.</p>
-<pre><code>   integer      0
-</code></pre><p> short integer      0
+<pre><code>       integer      0
+ short integer      0
        real         0.0
   long real         0.0
        character    The ISO NULL character, which is &apos;invisible&apos;.
        Boolean      False
        text         NoText, the empty text, referring to an empty string.
-                    Equivalent to &quot;&quot;.</p>
-<h3 id="implicit-conversion-of-reals-and-integers">Implicit conversion of reals and integers</h3>
+                    Equivalent to &quot;&quot;.
+</code></pre><h3 id="implicit-conversion-of-reals-and-integers">Implicit conversion of reals and integers</h3>
 <p>When a real value is assigned to an integer location or vice versa we have said that the value will be converted to one with the type of the location. When integers are converted to reals, no problems are involved in understanding what will happen. The values 3 and 3.0 are usually thought of as identical and such a conversion presents no ambiguities.
 On the other hand, when reals are converted to integers, the result depends on how we deal with the fractional part of the real value. How do we get get rid of the figures to the right of the decimal point?</p>
 <p>If we go back to our earlier examples we might use them to produce example 3.7. Running this would show the outcome of implicit conversion of reals to integers.</p>

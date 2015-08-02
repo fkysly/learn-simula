@@ -36,7 +36,7 @@
     <body>
         
         
-    <div class="book" data-level="12" data-basepath=".." data-revision="Sun Aug 02 2015 13:07:14 GMT+0800 (CST)">
+    <div class="book" data-level="12" data-basepath=".." data-revision="Sun Aug 02 2015 13:25:44 GMT+0800 (CST)">
     
 
 <div class="book-summary">
@@ -589,57 +589,58 @@ Conversely, to get Char to return a space, we need to call Char(64), but using I
 <p>When writing our text formatting program in chapter eleven, we were forced to use more and more deeply nested if statements to check which directive was being read. This becomes rather clumsy and difficult to read when more than a few choices are possible. It is also slow to run when lots of checks must be made before a course of action is selected.
 The help with this sort of situation, SIMULA contains a feature called a switch. To see how this works, consider example 12.4. This is example 11.1 rewritten with a switch.</p>
 <p>Example 12.4 : The use of a switch</p>
-<p>   begin
+<pre><code>   begin
       class Page;
-      begin</p>
-<pre><code>     class Print_Block(Width,Length);integer Width, Length;
-     begin
-        ref(Print_Block)Next;
-        text array Contents(1:Length);
-        integer Count;
-        for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
-     end--of--Print_Block;
+      begin
 
-     Print_Block class Title_Block(Title);text Title;
-     begin
-        Contents(Length//2):=Title
-     end--of--Title_Block;
+         class Print_Block(Width,Length);integer Width, Length;
+         begin
+            ref(Print_Block)Next;
+            text array Contents(1:Length);
+            integer Count;
+            for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
+         end--of--Print_Block;
 
-     Print_Block class Text_Block;
-     begin
-        for Count:=1 step 1 until Length do
-        begin
-           InImage;
-           Contents(Count):=InText(Width)
-        end
-     end--of--Text_Block;
+         Print_Block class Title_Block(Title);text Title;
+         begin
+            Contents(Length//2):=Title
+         end--of--Title_Block;
 
-     Print_Block class Diagram(Title); text Title;
-     begin
-        Contents(1):=Title
-     end--of--Diagram;
+         Print_Block class Text_Block;
+         begin
+            for Count:=1 step 1 until Length do
+            begin
+               InImage;
+               Contents(Count):=InText(Width)
+            end
+         end--of--Text_Block;
 
-     ref(Print_Block) Head, Tail, New_Block;
-     text Directive;
-     integer Len;
+         Print_Block class Diagram(Title); text Title;
+         begin
+            Contents(1):=Title
+         end--of--Diagram;
 
-     procedure Add(NewBlock); ref(Print_Block) NewBlock;
-     begin
-        if Head==None then Head :- NewBlock;
-        if Tail=/=None then Tail.Next :- NewBlock;
-         Tail :- NewBlock
-     end++of++Add;
+         ref(Print_Block) Head, Tail, New_Block;
+         text Directive;
+         integer Len;
 
-     switch Action := TitleB, TextB, DiagB;
-     Character ActionCode;
+         procedure Add(NewBlock); ref(Print_Block) NewBlock;
+         begin
+            if Head==None then Head :- NewBlock;
+            if Tail=/=None then Tail.Next :- NewBlock;
+             Tail :- NewBlock
+         end++of++Add;
 
-     Directive :- InText(2);
-     while Directive ne &quot;$E&quot; do
-     begin
-        Directive.SetPos(2);
-        ActionCode := Directive.GetChar;
-        go to Action(ISORank(ActionCode) - ISORank(&apos;A&apos;));
-</code></pre><p>   TitleB :    ! Directive = $B - New banner;
+         switch Action := TitleB, TextB, DiagB;
+         Character ActionCode;
+
+         Directive :- InText(2);
+         while Directive ne &quot;$E&quot; do
+         begin
+            Directive.SetPos(2);
+            ActionCode := Directive.GetChar;
+            go to Action(ISORank(ActionCode) - ISORank(&apos;A&apos;));
+   TitleB :    ! Directive = $B - New banner;
             Len := InInt;
             InImage;
             Add(New Title_Block(80,Len,InText(80)));
@@ -658,7 +659,7 @@ The help with this sort of situation, SIMULA contains a feature called a switch.
       end--of--Page;
       new Page
    end.of.program
-The letters in the directives are in alphabetic sequence starting with &apos;B&apos;. Thus they follow the ISO collating sequence. Thus, by subtracting ISORank (&apos;A&apos;) from the ISORank of each directive&apos;s letter, we can obtain a value between one and three, inclusive. Each integer value so obtained represents one of the three directives.</p>
+</code></pre><p>The letters in the directives are in alphabetic sequence starting with &apos;B&apos;. Thus they follow the ISO collating sequence. Thus, by subtracting ISORank (&apos;A&apos;) from the ISORank of each directive&apos;s letter, we can obtain a value between one and three, inclusive. Each integer value so obtained represents one of the three directives.</p>
 <h3 id="switch-declarations">switch declarations</h3>
 <p>The switch declaration is unusual, in that it contains the value assignment operator, :=, as well as identifiers. The syntax of such a declaration is the keyword switch, followed by an identifier giving the name of the switch, followed by the value assignment operator, followed by a list of so called &quot;designational expressions&quot;.
 Designational expressions can take a number of forms. In the example they all have the commonest form, a simple identifier.</p>
@@ -700,9 +701,9 @@ We have seen the use of switches and labels, in go to statements and as paramete
 <p>We have learned the benefits and, most importantly, the dangers of go to statements.</p>
 <p>We have seen the system procedure Terminate_Program.</p>
 <p>Table 12.1: ISO character set - printing characters.</p>
-<pre><code>0   nul    1   soh    2   stx    3   etx    4   eot    5   enq
-6   ack    7   bel    8    bs    9    ht   10    lf   11    vt
-</code></pre><p>   12    ff   13    cr   14    so   15    si   16   dle   17   dc1
+<pre><code>    0   nul    1   soh    2   stx    3   etx    4   eot    5   enq
+    6   ack    7   bel    8    bs    9    ht   10    lf   11    vt
+   12    ff   13    cr   14    so   15    si   16   dle   17   dc1
    18   dc2   19   dc3   20   dc4   21   nak   22   syn   23   etb
    24   can   25    em   26   sub   27   esc   28    fs   29    gs
    30    rs   31    us   32 space   33     !   34     &quot;   35     #
@@ -742,31 +743,52 @@ We have seen the use of switches and labels, in go to statements and as paramete
   234   ctl  235   ctl  236   ctl  237   ctl  238   ctl  239   ctl
   240   ctl  241   ctl  242   ctl  243   ctl  244   ctl  245   ctl
   246   ctl  247   ctl  248   ctl  249   ctl  250   ctl  251   ctl
-N.b. Ranks less than 32 and greater than 126 are not visible printing characters. Where appropriate the standard control meaning is supplied. Ranks greater than 127 are normally used for graphics or alternative character fonts.
+</code></pre><p>N.b. Ranks less than 32 and greater than 126 are not visible printing characters. Where appropriate the standard control meaning is supplied. Ranks greater than 127 are normally used for graphics or alternative character fonts.
 Table 12.2: EBCDIC character set - printing characters.</p>
-<pre><code>0   nul    1   soh    2   stx    3   etx    4          5   ht
-6          7   del    8          9         10         11   vt
-</code></pre><p>   12    ff   13    cr   14    so   15    si   16   dle   17   dc1
-   18   dc2   19   dc2   20         21         22   bsp   23<br>   24   can   25    em   26         27         28    fs   29    gs
-   30    rs   31    vs   32         33         34         35<br>   36         37    lf   38   etb   39   esc   40         41<br>   42         43         44         45   enq   46   ack   47   bel
-   48         49         50   syn   51         52         53<br>   54         55   eot   56         57         58         59<br>   60   dc4   61   nak   62         63   sub   64 space   65<br>   66         67         68         69         70         71<br>   72         73         74         75     .   76     &lt;   77     (
-   78     +   79     |   80     &amp;   81         82         83<br>   84         85         86         87         88         89<br>   90     !   91     $   92     *   93     )   94     ;   95     ~
-   96     -   97     /   98         99        100        101<br>  102        103        104        105        106     |  107     ,
-  108     %  109     _  110     &gt;  111     ?  112        113<br>  114        115        116        117        118        119<br>  120        121     `  122     :  123     #  124     @  125     &apos;
+<pre><code>    0   nul    1   soh    2   stx    3   etx    4          5   ht
+    6          7   del    8          9         10         11   vt
+   12    ff   13    cr   14    so   15    si   16   dle   17   dc1
+   18   dc2   19   dc2   20         21         22   bsp   23     
+   24   can   25    em   26         27         28    fs   29    gs
+   30    rs   31    vs   32         33         34         35     
+   36         37    lf   38   etb   39   esc   40         41     
+   42         43         44         45   enq   46   ack   47   bel
+   48         49         50   syn   51         52         53     
+   54         55   eot   56         57         58         59     
+   60   dc4   61   nak   62         63   sub   64 space   65      
+   66         67         68         69         70         71      
+   72         73         74         75     .   76     &lt;   77     (
+   78     +   79     |   80     &amp;   81         82         83      
+   84         85         86         87         88         89      
+   90     !   91     $   92     *   93     )   94     ;   95     ~
+   96     -   97     /   98         99        100        101      
+  102        103        104        105        106     |  107     ,
+  108     %  109     _  110     &gt;  111     ?  112        113      
+  114        115        116        117        118        119      
+  120        121     `  122     :  123     #  124     @  125     &apos;
   126     =  127     &quot;  128        129     a  130     b  131     c
   132     d  133     e  134     f  135     g  136     h  137     i
-  138        139        140        141        142        143<br>  144        145     j  146     k  147     l  148     m  149     n
-  150     o  151     p  152     q  153     r  154     ^  155<br>  156        157        158        159        160        161     ~
+  138        139        140        141        142        143      
+  144        145     j  146     k  147     l  148     m  149     n
+  150     o  151     p  152     q  153     r  154     ^  155      
+  156        157        158        159        160        161     ~
   162     s  163     t  164     u  165     v  166     w  167     x
   168     y  169     z  170        171        172        173     [
-  174        175        176        177        178        179<br>  180        181        182     ^  183        184        185<br>  186        187        188        189     ]  190        191<br>  192     {  193     A  194     B  195     C  196     D  197     E
-  198     F  199     G  200     H  201     I  202        203<br>  204        205        206        207        208     }  209     J
+  174        175        176        177        178        179      
+  180        181        182     ^  183        184        185      
+  186        187        188        189     ]  190        191      
+  192     {  193     A  194     B  195     C  196     D  197     E
+  198     F  199     G  200     H  201     I  202        203      
+  204        205        206        207        208     }  209     J
   210     K  211     L  212     M  213     N  214     O  215     P
-  216     Q  217     R  218        219        220        221<br>  222        223        224     \  225        226     S  227     T
+  216     Q  217     R  218        219        220        221      
+  222        223        224     \  225        226     S  227     T
   228     U  229     V  230     W  231     X  232     Y  233     Z
-  234        235        236        237        238        239<br>  240     0  241     1  242     2  243     3  244     4  245     5
-  246     6  247     7  248     8  249     9  250        251<br>  252        253        254        255
-N.b. EBCDIC character sets vary from machine to machine. This table is only one variant, example 12.2 uses an alternative mapping between EBCDIC and ISO to allow a complete conversion.</p>
+  234        235        236        237        238        239      
+  240     0  241     1  242     2  243     3  244     4  245     5
+  246     6  247     7  248     8  249     9  250        251      
+  252        253        254        255
+</code></pre><p>N.b. EBCDIC character sets vary from machine to machine. This table is only one variant, example 12.2 uses an alternative mapping between EBCDIC and ISO to allow a complete conversion.</p>
 <h2 id="-to-chapter-13-chapter13-readme-md"><a href="../Chapter13/index.html">To Chapter 13</a></h2>
 
                     
