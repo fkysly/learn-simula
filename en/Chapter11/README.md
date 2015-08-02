@@ -27,7 +27,7 @@ Diagram 11.1 - Family tree of class File
              |                            |                            |
     ImageFile class Infile     ImageFile class DirectFile   ImageFile class OutFile
                                                                     |
-                                                         Outfile class PrintFile
+                                                            Outfile class PrintFile
 The syntax of a sub-class declaration is very simple. The keyword class is preceded by the name of the parent class. Otherwise the declaration is the same as for a simple class. The new class is said to be "prefixed" by the parent.
 ###A word processing example
 
@@ -38,69 +38,69 @@ Example 11.1 shows the outline of such a set of classes. The parent class for bl
 
 Example 11.1: Representing pages as Print_Block objects.
 
-   begin
-      class Page;
       begin
-
-         class Print_Block(Width,Length);integer Width, Length;
+         class Page;
          begin
-            ref(Print_Block)Next;
-            text array Contents(1:Length);
-            integer Count;
-            for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
-         end--of--Print_Block;
 
-         Print_Block class Title_Block(Title);text Title;
-         begin
-            Contents(Length//2):=Title
-         end--of--Title_Block;
-
-         Print_Block class Text_Block;
-         begin
-            for Count:=1 step 1 until Length do
+            class Print_Block(Width,Length);integer Width, Length;
             begin
-               InImage;
-               Contents(Count):=Intext(Width)
-            end
-         end--of--Text_Block;
+               ref(Print_Block)Next;
+               text array Contents(1:Length);
+               integer Count;
+               for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
+            end--of--Print_Block;
 
-         Print_Block class Diagram(Title); text Title;
-         begin
-            Contents(1):=Title
-         end--of--Diagram;
-
-         ref(Print_Block) Head, Tail, New_Block;
-         text Directive;
-         integer Len;
-
-         procedure Add(NewBlock); ref(Print_Block) NewBlock;
-         begin
-            if Head==None then Head :- NewBlock;
-            if Tail=/=None then Tail.Next :- NewBlock;
-             Tail :- NewBlock
-         end++of++Add;
-
-         Directive :- InText(2);
-         while Directive NE "$E" do
-         begin
-            if Directive= "$B" then
+            Print_Block class Title_Block(Title);text Title;
             begin
-               Len := InInt;
-               InImage;
-               Add(new Title_Block(80,Len,InText(80)))
+               Contents(Length//2):=Title
+            end--of--Title_Block;
+
+            Print_Block class Text_Block;
+            begin
+               for Count:=1 step 1 until Length do
+               begin
+                  InImage;
+                  Contents(Count):=Intext(Width)
+               end
+            end--of--Text_Block;
+
+            Print_Block class Diagram(Title); text Title;
+            begin
+               Contents(1):=Title
+            end--of--Diagram;
+
+            ref(Print_Block) Head, Tail, New_Block;
+            text Directive;
+            integer Len;
+
+            procedure Add(NewBlock); ref(Print_Block) NewBlock;
+            begin
+               if Head==None then Head :- NewBlock;
+               if Tail=/=None then Tail.Next :- NewBlock;
+                Tail :- NewBlock
+            end++of++Add;
+
+            Directive :- InText(2);
+            while Directive NE "$E" do
+            begin
+               if Directive= "$B" then
+               begin
+                  Len := InInt;
+                  InImage;
+                  Add(new Title_Block(80,Len,InText(80)))
+               end
+               else if Directive="$C" then
+                  Add(new Text_Block(80,InInt))
+               else begin
+                  Len := InInt;
+                  InImage;
+                  Add(new Diagram(80,Len,InText(80)))
+               end;
+               Directive :- InText(2)
             end
-            else if Directive="$C" then
-               Add(new Text_Block(80,InInt))
-            else begin
-               Len := InInt;
-               InImage;
-               Add(new Diagram(80,Len,InText(80)))
-            end;
-            Directive :- InText(2)
-         end
-      end..of..Page;
-      new Page;
-   end
+         end..of..Page;
+         new Page;
+      end
 This parent class is used to prefix the three classes representing different types of block on a page. Each contains additional attributes, actions or both. Two contain parameters. Note that these also are additional to those in the parent class.
 ###A few properties of sub-classes
 
@@ -125,45 +125,45 @@ The directive "$D" means that a space for a diagram should be left. Again the nu
 
 Example 11.2: Concatenation .. sub-sub-classes
 
-   begin
-      class OuterMost(First); text First;
       begin
-         text OuterText;
-         OuterText :- Copy("Outermost=first on prefix chain");
-         OutText(OuterText);
-         OutImage;
-         OutText(First);
-         OutImage
-      end--of--OuterMost;
+         class OuterMost(First); text First;
+         begin
+            text OuterText;
+            OuterText :- Copy("Outermost=first on prefix chain");
+            OutText(OuterText);
+            OutImage;
+            OutText(First);
+            OutImage
+         end--of--OuterMost;
 
-      OuterMost class Middle(Second); text Second;
-      begin
-         text MiddleText;
-         MiddleText :- Copy("Middle=second on prefix chain");
-         OutText(MiddleText);
-         OutImage;
-         OutText(First);
-         OutText(Second);
-         OutImage
-      end--of--Middle;
+         OuterMost class Middle(Second); text Second;
+         begin
+            text MiddleText;
+            MiddleText :- Copy("Middle=second on prefix chain");
+            OutText(MiddleText);
+            OutImage;
+            OutText(First);
+            OutText(Second);
+            OutImage
+         end--of--Middle;
 
-      Middle class InnerMost(Third); text Third;
-      begin
-         text InnerText;
-         InnerText :- Copy("Inner=last on prefix chain");
-         OutText(InnerText);
-         Outimage;
-         OutText(First);
-         OutText(Second);
-         OutText(Third);
-         OutImage
-      end--of--InnerMost;
+         Middle class InnerMost(Third); text Third;
+         begin
+            text InnerText;
+            InnerText :- Copy("Inner=last on prefix chain");
+            OutText(InnerText);
+            Outimage;
+            OutText(First);
+            OutText(Second);
+            OutText(Third);
+            OutImage
+         end--of--InnerMost;
 
-      new OuterMost("One");
-      new Middle("One","Two");
-      new InnerMost("One","Two","Three")
+         new OuterMost("One");
+         new Middle("One","Two");
+         new InnerMost("One","Two","Three")
 
-   end**of**program
+      end**of**program
 ###Sub-sub-classes
 
 As is clear from the File family tree, a sub-class can prefix its own extensions. The rules given above still apply, except that the parameters, local variables and actions of all three classes are combined in the grandchild, in the order grandparent, parent, grandchild.
@@ -228,6 +228,7 @@ Example 11.3: Name conflicts in prefix chains.
                                             No1Son;
       end**of**program
 Example 11.4: The use of inner.
+
       begin
          class Parent;
          begin
@@ -336,40 +337,40 @@ will only give True if the object referenced by Obj was generated by
 The operator in makes a less strict check. It will give True if the object is either of the specified class or has that class on its prefix chain. The use of is and in is shown in example 11.5.
 Example 11.5: Use of is and in.
 
-begin
-         class A;
          begin
-            integer I;
-         end--of--A;
-
-         A class A1;
-         begin
-            integer K;
-         end--of--A1;
-
-         A class A2;
-         begin
-            integer L;
-         end--of--A2;
-
-         ref(A) Obj1,Obj2,Obj3,Obj4;
-
-         Obj1 :- new A;
-         Obj2 :- new A1;
-         Obj3 :- new A2;
-
-         for Obj4 :- Obj1,Obj2,Obj3 do
-         begin
-            if Obj4 is A then OutText("Object is A") else
-            if Obj4 in A then
+            class A;
             begin
-               OutText("Object in A");
-               if Obj4 is A1 then OutText(" and is A1")
-                             else OutText(" and is A2")
-            end else OutText("Object is not A and is not in A");
-            OutImage
-         end
-      end**of**program
+               integer I;
+            end--of--A;
+
+            A class A1;
+            begin
+               integer K;
+            end--of--A1;
+
+            A class A2;
+            begin
+               integer L;
+            end--of--A2;
+
+            ref(A) Obj1,Obj2,Obj3,Obj4;
+
+            Obj1 :- new A;
+            Obj2 :- new A1;
+            Obj3 :- new A2;
+
+            for Obj4 :- Obj1,Obj2,Obj3 do
+            begin
+               if Obj4 is A then OutText("Object is A") else
+               if Obj4 in A then
+               begin
+                  OutText("Object in A");
+                  if Obj4 is A1 then OutText(" and is A1")
+                                else OutText(" and is A2")
+               end else OutText("Object is not A and is not in A");
+               OutImage
+            end
+         end**of**program
 ###Exercise
 
 11.6 Rewrite the text processing program so that it recognises the directive $A. This is followed by a text sequence which is to be printed after all the other blocks. In every other way it is treated as a Text_Block. Use is to test the blocks and print them in the correct order.
@@ -450,12 +451,12 @@ Table 11.1: Effects of Boolean operators.
 
 Boolean operators can be combined to form more complicated expressions. The rules for evaluating Boolean expressions are then as follow. All working out is done from left to right.
 
-      1. All the comparisons are performed and the values True or False put in their places.
-      2. All not operations are carried out.
-      3. All and operations are carried out.
-      4. All or operations are carried out.
-      5. All imp operations are carried out.
-      6. All eqv operations are carried out.
+   1. All the comparisons are performed and the values True or False put in their places.
+   2. All not operations are carried out.
+   3. All and operations are carried out.
+   4. All or operations are carried out.
+   5. All imp operations are carried out.
+   6. All eqv operations are carried out.
 Example 11.10 shows this sequence for an unusually complicated sequence.
 ###Bracketing
 

@@ -280,6 +280,7 @@ a: Using real values.
          OutImage
       end
 b: Using variables as step and limit values.
+
       begin
          integer I1, I2, I3, I4;
          I2:=4;

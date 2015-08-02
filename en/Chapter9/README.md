@@ -225,7 +225,8 @@ Example 9.4 uses File objects to allow label lists to be accessed and created. N
 
 Example 9.5: Inserting a numbered label using procedure attributes.
 
-      begin
+    begin
+    
        comment*******************************************
        * MyInput and MyOutput replace SysIn and SysOut. *
        * They can be redefined as necessary.            *

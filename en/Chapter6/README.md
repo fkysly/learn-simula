@@ -124,19 +124,19 @@ In fact there are three modes; value, reference and name.
 
 Where a mode specifier is not given for a parameter, a mode of value or reference is assumed, depending on its type. Some modes are illegal for certain types. Table 6.1 is a complete table of the assumed (usually referred to as default), legal and illegal modes for parameters to procedures.
 
-    Type                Mode      Value Reference Name
+      Type                  Mode      Value   Reference Name
 
-    Simple type           Default Illegal Legal
-    text                Legal     Default Legal
-    Object reference    Illegal Default Legal
-    Simple type array   Legal   Default Legal
-    Reference type array  Illegal Default Legal
-    procedure           Illegal Default Legal
-    type procedure        Illegal Default Legal
-    label               Illegal Default Legal
-    switch                Illegal Default Legal
+      Simple type           Default   Illegal   Legal
+      text                  Legal     Default   Legal
+      Object reference      Illegal   Default   Legal
+      Simple type array     Legal     Default   Legal
+      Reference type array  Illegal   Default   Legal
+      procedure             Illegal   Default   Legal
+      type procedure        Illegal   Default   Legal
+      label                 Illegal   Default   Legal
+      switch                Illegal   Default   Legal
 
-    Table 6.1: Modes of transmission for parameter types.
+      Table 6.1: Modes of transmission for parameter types.
 
 A simple type is integer, real, character or Boolean and any long or short variants of them.
 
@@ -330,6 +330,7 @@ Example 6.11: A simple type procedure or function.
                    OutImage
                 end
 Example 6.12: Concatenate as a text procedure.
+
           begin
 
              text procedure Concatenate(T1, T2); text T1, T2;
@@ -420,7 +421,7 @@ When the procedure identifier occurs on the right hand side of an assignment the
 It is not necessary to have a type procedure to use recursion. There are many instances when non-type procedures can use recursion. It is a vey powerful device. Example 6.14 uses a non-type procedure . It shows the power of recursion and the possible problems of using it without proper thought.
 Example 6.14: The danger of non-terminating recursion.
 
-begin
+      begin
 
          procedure Numbr(Tex, Num); Text TEX; integer Num;
          begin

@@ -308,74 +308,75 @@ The concept of adding to a list by manipulating pointers is very powerful. It is
 
 Example 10.6: Adding an item to an ordered list in an array.
 
-   begin
-
-      ref(InFile) MyInput;
-
-      class Lab;
       begin
-         procedure ReadLabel;
+
+         ref(InFile) MyInput;
+
+         class Lab;
          begin
-            integer I;
-            inspect MyInput do
+            procedure ReadLabel;
             begin
-               SeqNo := InInt;
-               InImage;
-               for I := 1 step 1 until 5 do
+               integer I;
+               inspect MyInput do
                begin
-                  Address(I) :- Copy(Image.Strip);
-                  InImage
+                  SeqNo := InInt;
+                  InImage;
+                  for I := 1 step 1 until 5 do
+                  begin
+                     Address(I) :- Copy(Image.Strip);
+                     InImage
+                  end
                end
-            end
-         end--of--ReadLabel;
+            end--of--ReadLabel;
 
-         text array Address(1:6);
-         integer SeqNo;
-      end++of++Lab;
+            text array Address(1:6);
+            integer SeqNo;
+         end++of++Lab;
 
-      integer Count1, Count2, I;
-      ref(InFile) Source;
-      ref(Lab) array Labs(1:100);
-      ref(Lab) NewLab;
+         integer Count1, Count2, I;
+         ref(InFile) Source;
+         ref(Lab) array Labs(1:100);
+         ref(Lab) NewLab;
 
-      Source :- new InFile("Labels");
-      inspect Source do
-      begin
-         Open(Blanks(20));
-         MyInput :- Source;
-         while not EndFile do
+         Source :- new InFile("Labels");
+         inspect Source do
          begin
-            comment Assume labels in Source already in order of SeqNo;
-            Count1 := Count1 + 1;
-            Labs(Count1) :- new Lab;   ! Read in successive labels;
-            Labs(Count1).ReadLabel
-         end..of..reading ..source..into..Labs;
-         Close
-      end%%of%%inspecting%%Source;
+            Open(Blanks(20));
+            MyInput :- Source;
+            while not EndFile do
+            begin
+               comment Assume labels in Source already in order of SeqNo;
+               Count1 := Count1 + 1;
+               Labs(Count1) :- new Lab;   ! Read in successive labels;
+               Labs(Count1).ReadLabel
+            end..of..reading ..source..into..Labs;
+            Close
+         end%%of%%inspecting%%Source;
 
-      MyInput :- SysIn;
-      NewLab :- new Lab;
-      NewLab.ReadLabel;
-      Count2 := 1;
-      while Count2<=Count1 do
-      begin
-         if Labs(Count2).SeqNo>NewLab.SeqNo then
+         MyInput :- SysIn;
+         NewLab :- new Lab;
+         NewLab.ReadLabel;
+         Count2 := 1;
+         while Count2<=Count1 do
          begin
-            comment New label goes before Labs(Count2) so make room;
-            for I := Count1 step -1 until Count2 do Labs(I+1) :- Labs(I);
-            Labs(Count2) :- NewLab;
-            Count2 := Count1 + 2;   ! Force end of while loop;
-         end--of--adding--new--label;
-         Count2 := Count2 + 1;
-      end..of..while..loop;
+            if Labs(Count2).SeqNo>NewLab.SeqNo then
+            begin
+               comment New label goes before Labs(Count2) so make room;
+               for I := Count1 step -1 until Count2 do Labs(I+1) :- Labs(I);
+               Labs(Count2) :- NewLab;
+               Count2 := Count1 + 2;   ! Force end of while loop;
+            end--of--adding--new--label;
+            Count2 := Count2 + 1;
+         end..of..while..loop;
 
-      if Count2=Count1+1 then Labs(Count2) :- NewLab; ! Goes at the end;
+         if Count2=Count1+1 then Labs(Count2) :- NewLab; ! Goes at the end;
 
-      comment Check the sequence;
-      for I := 1 step 1 until Count1 + 1 do OutInt(Labs(I).SeqNo,3)
+         comment Check the sequence;
+         for I := 1 step 1 until Count1 + 1 do OutInt(Labs(I).SeqNo,3)
 
-   end**of**program
+      end**of**program
 Example 10.7: Building the linked list in Diagram 10.1.
+
    begin
       class Linked_Lab;
       begin
@@ -430,72 +431,72 @@ If we think further, a linked list is a data structure with attributes unique to
 
 Example 10.8: Class Label_List.
 
-   begin
-      class Linked_Label;
       begin
-         ref(Linked_Label) Next;
-         integer SeqNo;
-         SeqNo := InInt
-      end--of--Linked--Label;
-
-      class Label_List;
-      begin
-         ref(Linked_Label) Head, Tail;
-
-         procedure AddtoEnd(Lab);ref(Linked_Label) Lab;
+         class Linked_Label;
          begin
-            if Head==None then
-            begin
-               comment Special case when list is empty;
-               Head :- Tail :- Lab
-            end else begin
-               comment Normal case;
-               Tail.Next :- Lab;
-               Tail :- Lab
-            end
-         end++of++AddtoEnd;
+            ref(Linked_Label) Next;
+            integer SeqNo;
+            SeqNo := InInt
+         end--of--Linked--Label;
 
-         procedure AddtoFront(Lab);ref(Linked_Label) Lab;
+         class Label_List;
          begin
-            if Head==None then
+            ref(Linked_Label) Head, Tail;
+
+            procedure AddtoEnd(Lab);ref(Linked_Label) Lab;
             begin
-               comment Special case when list is empty;
-               Head :- Tail :- Lab
-            end else begin
-               comment Normal case;
-               Lab.Next :- Head;
-               Head :- Lab
-            end
-         end++of++AddtoFront;
+               if Head==None then
+               begin
+                  comment Special case when list is empty;
+                  Head :- Tail :- Lab
+               end else begin
+                  comment Normal case;
+                  Tail.Next :- Lab;
+                  Tail :- Lab
+               end
+            end++of++AddtoEnd;
 
-      end--of--Label--List;
+            procedure AddtoFront(Lab);ref(Linked_Label) Lab;
+            begin
+               if Head==None then
+               begin
+                  comment Special case when list is empty;
+                  Head :- Tail :- Lab
+               end else begin
+                  comment Normal case;
+                  Lab.Next :- Head;
+                  Head :- Lab
+               end
+            end++of++AddtoFront;
 
-      ref(Label_List) Labs;
-      ref(Linked_Label) New_Lab, Temp;
-      integer Count;
+         end--of--Label--List;
 
-      comment Create an initial list of 4 items;
-      Labs :- new Label_List;
-      for Count := 1 step 1 until 4 do Labs.AddtoEnd(new Linked_Label);
+         ref(Label_List) Labs;
+         ref(Linked_Label) New_Lab, Temp;
+         integer Count;
 
-      comment Add a new label to the front;
-      Labs.AddtoFront(New Linked_Label);
-      comment Add a new label between existing nos. 2 and 3;
-      New_Lab :- new Linked_Label;
-      Temp :- Labs.Head;
-      Temp :- Temp.Next;
-      comment Temp now points to item 2 on list;
-      New_Lab.Next :- Temp.Next;   ! Step b) in diagram 10.2;
-      Temp.Next :- New_Lab;        ! Step c) in diagram 10.2;
+         comment Create an initial list of 4 items;
+         Labs :- new Label_List;
+         for Count := 1 step 1 until 4 do Labs.AddtoEnd(new Linked_Label);
 
-      Temp :- Labs.Head;
-      while Temp=/=None do
-      begin
-         OutInt(Temp.SeqNo,3);
-         Temp :- Temp.Next
-      end;
-      OutImage
-   end**of**program
+         comment Add a new label to the front;
+         Labs.AddtoFront(New Linked_Label);
+         comment Add a new label between existing nos. 2 and 3;
+         New_Lab :- new Linked_Label;
+         Temp :- Labs.Head;
+         Temp :- Temp.Next;
+         comment Temp now points to item 2 on list;
+         New_Lab.Next :- Temp.Next;   ! Step b) in diagram 10.2;
+         Temp.Next :- New_Lab;        ! Step c) in diagram 10.2;
+
+         Temp :- Labs.Head;
+         while Temp=/=None do
+         begin
+            OutInt(Temp.SeqNo,3);
+            Temp :- Temp.Next
+         end;
+         OutImage
+      end**of**program
 ###Exercises
 
 10.6 Write a program which locates and removes an item in a linked list.

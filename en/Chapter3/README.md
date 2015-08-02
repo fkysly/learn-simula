@@ -56,6 +56,7 @@ Example 3.3: A legal mixing of types in an expression.
          OutImage
       end
 Example 3.4: An illegal mixing of types in an expression.
+
       begin
          character CharVal;
          real RealVal;
@@ -188,14 +189,15 @@ Thus it is quite legal, and meaningful, in SIMULA to write
 since the initial value placed in the location identified by IntVal will be printed. This will be the value initially given to all integer locations.
 The values placed in each type of location are given below.
 
-       integer      0
- short integer      0
-       real         0.0
-  long real         0.0
-       character    The ISO NULL character, which is 'invisible'.
-       Boolean      False
-       text         NoText, the empty text, referring to an empty string.
-                    Equivalent to "".
+           integer      0
+     short integer      0
+           real         0.0
+      long real         0.0
+           character    The ISO NULL character, which is 'invisible'.
+           Boolean      False
+           text         NoText, the empty text, referring to an empty string.
+                        Equivalent to "".
+                      
 ###Implicit conversion of reals and integers
 
 When a real value is assigned to an integer location or vice versa we have said that the value will be converted to one with the type of the location. When integers are converted to reals, no problems are involved in understanding what will happen. The values 3 and 3.0 are usually thought of as identical and such a conversion presents no ambiguities.

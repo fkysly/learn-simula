@@ -80,29 +80,29 @@ Here is a quick sketch of the design of our total system, concentrating on the l
 
 Figure 4.1: Overall top down design of Formatter/Editor
 
-                      EDITOR/FORMATTER
-                      ----------------
-          ___________________I________
-          EDITOR             FORMATTER
-          ------             ---------
-               __________________I___________________________
-               CONTENTS  PREFACE         CHAPTERS       INDEX
-               --------  -------         --------       -----
-               _____________________________I______
-               TITLE                          PAGES
-               -----                          -----
-                 _______________________________I______________
-                 HEADING        PARAGRAPHS            NUMBERING
-                 -------        ----------            ---------
-              _______________________I_______
-              INDENTING                 LINES
-              ---------                 -----
-   _______________________________________I____________________
-   CLEANING   LEFT MARGIN   LENGTH   RIGHT JUSTIFYING   SPACING
-   --------   -----------   ------   ----------------   -------
- ______I______
- DOUBLE SPACES
- -------------
+                            EDITOR/FORMATTER
+                            ----------------
+                ___________________I________
+                EDITOR             FORMATTER
+                ------             ---------
+                     __________________I___________________________
+                     CONTENTS  PREFACE         CHAPTERS       INDEX
+                     --------  -------         --------       -----
+                     _____________________________I______
+                     TITLE                          PAGES
+                     -----                          -----
+                       _______________________________I______________
+                       HEADING        PARAGRAPHS            NUMBERING
+                       -------        ----------            ---------
+                    _______________________I_______
+                    INDENTING                 LINES
+                    ---------                 -----
+         _______________________________________I____________________
+         CLEANING   LEFT MARGIN   LENGTH   RIGHT JUSTIFYING   SPACING
+         --------   -----------   ------   ----------------   -------
+       ______I______
+       DOUBLE SPACES
+       -------------
 This type of design allows us to begin work now, without losing sight of the overall plan. It is also possible to design components now and improve on them later if we discover better ways of implementing them. Most importantly this form of design makes it easier to change parts of the system without upsetting other parts, since the degree of interdependence of components can be seen easily.
 We shall fill in other branches as we learn more of SIMULA's capabilities. In fact we shall not finish the system. No piece of software is ever so good that extra or better features might not improve it. You should be able to add such refinements for yourself before we finish.
 
@@ -130,6 +130,7 @@ Example 4.4: Informal description of double space remover.
             OutImage
          end
 Example 4.5: More complete version of double space remover.
+
       begin
          text T;
          InImage;      ! Read into SysIn.Image;

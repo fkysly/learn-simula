@@ -187,76 +187,76 @@ The help with this sort of situation, SIMULA contains a feature called a switch.
 
 Example 12.4 : The use of a switch
 
-   begin
-      class Page;
-      begin
+       begin
+          class Page;
+          begin
 
-         class Print_Block(Width,Length);integer Width, Length;
-         begin
-            ref(Print_Block)Next;
-            text array Contents(1:Length);
-            integer Count;
-            for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
-         end--of--Print_Block;
+             class Print_Block(Width,Length);integer Width, Length;
+             begin
+                ref(Print_Block)Next;
+                text array Contents(1:Length);
+                integer Count;
+                for Count:=1 step 1 until Length do Contents(Count):-Blanks(Width)
+             end--of--Print_Block;
 
-         Print_Block class Title_Block(Title);text Title;
-         begin
-            Contents(Length//2):=Title
-         end--of--Title_Block;
+             Print_Block class Title_Block(Title);text Title;
+             begin
+                Contents(Length//2):=Title
+             end--of--Title_Block;
 
-         Print_Block class Text_Block;
-         begin
-            for Count:=1 step 1 until Length do
-            begin
-               InImage;
-               Contents(Count):=InText(Width)
-            end
-         end--of--Text_Block;
+             Print_Block class Text_Block;
+             begin
+                for Count:=1 step 1 until Length do
+                begin
+                   InImage;
+                   Contents(Count):=InText(Width)
+                end
+             end--of--Text_Block;
 
-         Print_Block class Diagram(Title); text Title;
-         begin
-            Contents(1):=Title
-         end--of--Diagram;
+             Print_Block class Diagram(Title); text Title;
+             begin
+                Contents(1):=Title
+             end--of--Diagram;
 
-         ref(Print_Block) Head, Tail, New_Block;
-         text Directive;
-         integer Len;
+             ref(Print_Block) Head, Tail, New_Block;
+             text Directive;
+             integer Len;
 
-         procedure Add(NewBlock); ref(Print_Block) NewBlock;
-         begin
-            if Head==None then Head :- NewBlock;
-            if Tail=/=None then Tail.Next :- NewBlock;
-             Tail :- NewBlock
-         end++of++Add;
+             procedure Add(NewBlock); ref(Print_Block) NewBlock;
+             begin
+                if Head==None then Head :- NewBlock;
+                if Tail=/=None then Tail.Next :- NewBlock;
+                 Tail :- NewBlock
+             end++of++Add;
 
-         switch Action := TitleB, TextB, DiagB;
-         Character ActionCode;
+             switch Action := TitleB, TextB, DiagB;
+             Character ActionCode;
 
-         Directive :- InText(2);
-         while Directive ne "$E" do
-         begin
-            Directive.SetPos(2);
-            ActionCode := Directive.GetChar;
-            go to Action(ISORank(ActionCode) - ISORank('A'));
-   TitleB :    ! Directive = $B - New banner;
-            Len := InInt;
-            InImage;
-            Add(New Title_Block(80,Len,InText(80)));
-            go to Repeat;
-   TextB :     ! Directive = $C - New content;
-            Add(new Text_Block (80,Inint));
-            go to Repeat;
-   DiagB :     ! Directive = $D - New diagram;
-            Len := InInt;
-            InImage;
-            Add(new Diagram(80,Len,InText(80)));
-            go to Repeat;
-   Repeat: 
-            Directive :- InText(2)
-         end.of.while.loop 
-      end--of--Page;
-      new Page
-   end.of.program
+             Directive :- InText(2);
+             while Directive ne "$E" do
+             begin
+                Directive.SetPos(2);
+                ActionCode := Directive.GetChar;
+                go to Action(ISORank(ActionCode) - ISORank('A'));
+       TitleB :    ! Directive = $B - New banner;
+                Len := InInt;
+                InImage;
+                Add(New Title_Block(80,Len,InText(80)));
+                go to Repeat;
+       TextB :     ! Directive = $C - New content;
+                Add(new Text_Block (80,Inint));
+                go to Repeat;
+       DiagB :     ! Directive = $D - New diagram;
+                Len := InInt;
+                InImage;
+                Add(new Diagram(80,Len,InText(80)));
+                go to Repeat;
+       Repeat: 
+                Directive :- InText(2)
+             end.of.while.loop 
+          end--of--Page;
+          new Page
+       end.of.program
 The letters in the directives are in alphabetic sequence starting with 'B'. Thus they follow the ISO collating sequence. Thus, by subtracting ISORank ('A') from the ISORank of each directive's letter, we can obtain a value between one and three, inclusive. Each integer value so obtained represents one of the three directives.
 ###switch declarations
 
@@ -326,94 +326,94 @@ We have seen the system procedure Terminate_Program.
 
 Table 12.1: ISO character set - printing characters.
 
-    0   nul    1   soh    2   stx    3   etx    4   eot    5   enq
-    6   ack    7   bel    8    bs    9    ht   10    lf   11    vt
-   12    ff   13    cr   14    so   15    si   16   dle   17   dc1
-   18   dc2   19   dc3   20   dc4   21   nak   22   syn   23   etb
-   24   can   25    em   26   sub   27   esc   28    fs   29    gs
-   30    rs   31    us   32 space   33     !   34     "   35     #
-   36     $   37     %   38     &   39     '   40     (   41     )
-   42     *   43     +   44     ,   45     -   46     .   47     /
-   48     0   49     1   50     2   51     3   52     4   53     5
-   54     6   55     7   56     8   57     9   58     :   59     ;
-   60     <   61     =   62     >   63     ?   64     @   65     A
-   66     B   67     C   68     D   69     E   70     F   71     G
-   72     H   73     I   74     J   75     K   76     L   77     M
-   78     N   79     O   80     P   81     Q   82     R   83     S
-   84     T   85     U   86     V   87     W   88     X   89     Y
-   90     Z   91     [   92     \   93     ]   94     ^   95     _
-   96     `   97     a   98     b   99     c  100     d  101     e
-  102     f  103     g  104     h  105     i  106     j  107     k
-  108     l  109     m  110     n  111     o  112     p  113     q
-  114     r  115     s  116     t  117     u  118     v  119     w
-  120     x  121     y  122     z  123     {  124     |  125     }
-  126     ~  127   del  128   ctl  129   ctl  130   ctl  131   ctl
-  132   ctl  133   ctl  134   ctl  135   ctl  136   ctl  137   ctl
-  138   ctl  139   ctl  140   ctl  141   ctl  142   ctl  143   ctl
-  144   ctl  145   ctl  146   ctl  147   ctl  148   ctl  149   ctl
-  150   ctl  151   ctl  152   ctl  153   ctl  154   ctl  155   ctl
-  156   ctl  157   ctl  158   ctl  159   ctl  160   ctl  161   ctl
-  162   ctl  163   ctl  164   ctl  165   ctl  166   ctl  167   ctl
-  168   ctl  169   ctl  170   ctl  171   ctl  172   ctl  173   ctl
-  174   ctl  175   ctl  176   ctl  177   ctl  178   ctl  179   ctl
-  180   ctl  181   ctl  182   ctl  183   ctl  184   ctl  185   ctl
-  186   ctl  187   ctl  188   ctl  189   ctl  190   ctl  191   ctl
-  192   ctl  193   ctl  194   ctl  195   ctl  196   ctl  197   ctl
-  198   ctl  199   ctl  200   ctl  201   ctl  202   ctl  203   ctl
-  204   ctl  205   ctl  206   ctl  207   ctl  208   ctl  209   ctl
-  210   ctl  211   ctl  212   ctl  213   ctl  214   ctl  215   ctl
-  216   ctl  217   ctl  218   ctl  219   ctl  220   ctl  221   ctl
-  222   ctl  223   ctl  224   ctl  225   ctl  226   ctl  227   ctl
-  228   ctl  229   ctl  230   ctl  231   ctl  232   ctl  233   ctl
-  234   ctl  235   ctl  236   ctl  237   ctl  238   ctl  239   ctl
-  240   ctl  241   ctl  242   ctl  243   ctl  244   ctl  245   ctl
-  246   ctl  247   ctl  248   ctl  249   ctl  250   ctl  251   ctl
+        0   nul    1   soh    2   stx    3   etx    4   eot    5   enq
+        6   ack    7   bel    8    bs    9    ht   10    lf   11    vt
+       12    ff   13    cr   14    so   15    si   16   dle   17   dc1
+       18   dc2   19   dc3   20   dc4   21   nak   22   syn   23   etb
+       24   can   25    em   26   sub   27   esc   28    fs   29    gs
+       30    rs   31    us   32 space   33     !   34     "   35     #
+       36     $   37     %   38     &   39     '   40     (   41     )
+       42     *   43     +   44     ,   45     -   46     .   47     /
+       48     0   49     1   50     2   51     3   52     4   53     5
+       54     6   55     7   56     8   57     9   58     :   59     ;
+       60     <   61     =   62     >   63     ?   64     @   65     A
+       66     B   67     C   68     D   69     E   70     F   71     G
+       72     H   73     I   74     J   75     K   76     L   77     M
+       78     N   79     O   80     P   81     Q   82     R   83     S
+       84     T   85     U   86     V   87     W   88     X   89     Y
+       90     Z   91     [   92     \   93     ]   94     ^   95     _
+       96     `   97     a   98     b   99     c  100     d  101     e
+      102     f  103     g  104     h  105     i  106     j  107     k
+      108     l  109     m  110     n  111     o  112     p  113     q
+      114     r  115     s  116     t  117     u  118     v  119     w
+      120     x  121     y  122     z  123     {  124     |  125     }
+      126     ~  127   del  128   ctl  129   ctl  130   ctl  131   ctl
+      132   ctl  133   ctl  134   ctl  135   ctl  136   ctl  137   ctl
+      138   ctl  139   ctl  140   ctl  141   ctl  142   ctl  143   ctl
+      144   ctl  145   ctl  146   ctl  147   ctl  148   ctl  149   ctl
+      150   ctl  151   ctl  152   ctl  153   ctl  154   ctl  155   ctl
+      156   ctl  157   ctl  158   ctl  159   ctl  160   ctl  161   ctl
+      162   ctl  163   ctl  164   ctl  165   ctl  166   ctl  167   ctl
+      168   ctl  169   ctl  170   ctl  171   ctl  172   ctl  173   ctl
+      174   ctl  175   ctl  176   ctl  177   ctl  178   ctl  179   ctl
+      180   ctl  181   ctl  182   ctl  183   ctl  184   ctl  185   ctl
+      186   ctl  187   ctl  188   ctl  189   ctl  190   ctl  191   ctl
+      192   ctl  193   ctl  194   ctl  195   ctl  196   ctl  197   ctl
+      198   ctl  199   ctl  200   ctl  201   ctl  202   ctl  203   ctl
+      204   ctl  205   ctl  206   ctl  207   ctl  208   ctl  209   ctl
+      210   ctl  211   ctl  212   ctl  213   ctl  214   ctl  215   ctl
+      216   ctl  217   ctl  218   ctl  219   ctl  220   ctl  221   ctl
+      222   ctl  223   ctl  224   ctl  225   ctl  226   ctl  227   ctl
+      228   ctl  229   ctl  230   ctl  231   ctl  232   ctl  233   ctl
+      234   ctl  235   ctl  236   ctl  237   ctl  238   ctl  239   ctl
+      240   ctl  241   ctl  242   ctl  243   ctl  244   ctl  245   ctl
+      246   ctl  247   ctl  248   ctl  249   ctl  250   ctl  251   ctl
 N.b. Ranks less than 32 and greater than 126 are not visible printing characters. Where appropriate the standard control meaning is supplied. Ranks greater than 127 are normally used for graphics or alternative character fonts.
 Table 12.2: EBCDIC character set - printing characters.
 
-    0   nul    1   soh    2   stx    3   etx    4          5   ht
-    6          7   del    8          9         10         11   vt
-   12    ff   13    cr   14    so   15    si   16   dle   17   dc1
-   18   dc2   19   dc2   20         21         22   bsp   23     
-   24   can   25    em   26         27         28    fs   29    gs
-   30    rs   31    vs   32         33         34         35     
-   36         37    lf   38   etb   39   esc   40         41     
-   42         43         44         45   enq   46   ack   47   bel
-   48         49         50   syn   51         52         53     
-   54         55   eot   56         57         58         59     
-   60   dc4   61   nak   62         63   sub   64 space   65      
-   66         67         68         69         70         71      
-   72         73         74         75     .   76     <   77     (
-   78     +   79     |   80     &   81         82         83      
-   84         85         86         87         88         89      
-   90     !   91     $   92     *   93     )   94     ;   95     ~
-   96     -   97     /   98         99        100        101      
-  102        103        104        105        106     |  107     ,
-  108     %  109     _  110     >  111     ?  112        113      
-  114        115        116        117        118        119      
-  120        121     `  122     :  123     #  124     @  125     '
-  126     =  127     "  128        129     a  130     b  131     c
-  132     d  133     e  134     f  135     g  136     h  137     i
-  138        139        140        141        142        143      
-  144        145     j  146     k  147     l  148     m  149     n
-  150     o  151     p  152     q  153     r  154     ^  155      
-  156        157        158        159        160        161     ~
-  162     s  163     t  164     u  165     v  166     w  167     x
-  168     y  169     z  170        171        172        173     [
-  174        175        176        177        178        179      
-  180        181        182     ^  183        184        185      
-  186        187        188        189     ]  190        191      
-  192     {  193     A  194     B  195     C  196     D  197     E
-  198     F  199     G  200     H  201     I  202        203      
-  204        205        206        207        208     }  209     J
-  210     K  211     L  212     M  213     N  214     O  215     P
-  216     Q  217     R  218        219        220        221      
-  222        223        224     \  225        226     S  227     T
-  228     U  229     V  230     W  231     X  232     Y  233     Z
-  234        235        236        237        238        239      
-  240     0  241     1  242     2  243     3  244     4  245     5
-  246     6  247     7  248     8  249     9  250        251      
-  252        253        254        255
+        0   nul    1   soh    2   stx    3   etx    4          5   ht
+        6          7   del    8          9         10         11   vt
+       12    ff   13    cr   14    so   15    si   16   dle   17   dc1
+       18   dc2   19   dc2   20         21         22   bsp   23     
+       24   can   25    em   26         27         28    fs   29    gs
+       30    rs   31    vs   32         33         34         35     
+       36         37    lf   38   etb   39   esc   40         41     
+       42         43         44         45   enq   46   ack   47   bel
+       48         49         50   syn   51         52         53     
+       54         55   eot   56         57         58         59     
+       60   dc4   61   nak   62         63   sub   64 space   65      
+       66         67         68         69         70         71      
+       72         73         74         75     .   76     <   77     (
+       78     +   79     |   80     &   81         82         83      
+       84         85         86         87         88         89      
+       90     !   91     $   92     *   93     )   94     ;   95     ~
+       96     -   97     /   98         99        100        101      
+      102        103        104        105        106     |  107     ,
+      108     %  109     _  110     >  111     ?  112        113      
+      114        115        116        117        118        119      
+      120        121     `  122     :  123     #  124     @  125     '
+      126     =  127     "  128        129     a  130     b  131     c
+      132     d  133     e  134     f  135     g  136     h  137     i
+      138        139        140        141        142        143      
+      144        145     j  146     k  147     l  148     m  149     n
+      150     o  151     p  152     q  153     r  154     ^  155      
+      156        157        158        159        160        161     ~
+      162     s  163     t  164     u  165     v  166     w  167     x
+      168     y  169     z  170        171        172        173     [
+      174        175        176        177        178        179      
+      180        181        182     ^  183        184        185      
+      186        187        188        189     ]  190        191      
+      192     {  193     A  194     B  195     C  196     D  197     E
+      198     F  199     G  200     H  201     I  202        203      
+      204        205        206        207        208     }  209     J
+      210     K  211     L  212     M  213     N  214     O  215     P
+      216     Q  217     R  218        219        220        221      
+      222        223        224     \  225        226     S  227     T
+      228     U  229     V  230     W  231     X  232     Y  233     Z
+      234        235        236        237        238        239      
+      240     0  241     1  242     2  243     3  244     4  245     5
+      246     6  247     7  248     8  249     9  250        251      
+      252        253        254        255
 N.b. EBCDIC character sets vary from machine to machine. This table is only one variant, example 12.2 uses an alternative mapping between EBCDIC and ISO to allow a complete conversion.
 
 {{ book.Chapter13 }}

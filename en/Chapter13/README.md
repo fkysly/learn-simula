@@ -19,44 +19,44 @@ Examples 13.1: Remote accessing.
 
 a) Dot notation.
 
-   begin
-      integer Int;
+         begin
+            integer Int;
 
-      class Example(Ch); character Ch;
-      begin
-         integer Int;
-         text Txt;
-         procedure Proc; OutText("Called");
-      end--of--Example;
+            class Example(Ch); character Ch;
+            begin
+               integer Int;
+               text Txt;
+               procedure Proc; OutText("Called");
+            end--of--Example;
 
-      ref(Example) Ex1;
-      Ex1 :- new Example('?');
-      OutChar(Ex1.Ch);
-      Ex1.Proc;
-      for Int := Ex1.Int step 2 until 6 do Ex1.Txt := "Txt"
-   end
+            ref(Example) Ex1;
+            Ex1 :- new Example('?');
+            OutChar(Ex1.Ch);
+            Ex1.Proc;
+            for Int := Ex1.Int step 2 until 6 do Ex1.Txt := "Txt"
+         end
 b) inspect statement.
-   begin
-      integer Int;
+         begin
+            integer Int;
 
-      class Example(Ch); character Ch;
-      begin
-         integer Int;
-         text Txt;
-         procedure Proc; OutText("Called");
-      end--of--Example;
+            class Example(Ch); character Ch;
+            begin
+               integer Int;
+               text Txt;
+               procedure Proc; OutText("Called");
+            end--of--Example;
 
-      ref(Example) Ex1;
-      Ex1 :- new Example('?');
-      inspect Ex1 do
-      begin
-         OutChar(Ch);
-         Proc;
-         comment Note that the first Int in the next statement now refers to
-                 the attribute of Ex1, not the declaration in the main program;
-         for Int := Int step 2 until 6 do Txt := "Txt"
-      end
-   end
+            ref(Example) Ex1;
+            Ex1 :- new Example('?');
+            inspect Ex1 do
+            begin
+               OutChar(Ch);
+               Proc;
+               comment Note that the first Int in the next statement now refers to
+                       the attribute of Ex1, not the declaration in the main program;
+               for Int := Int step 2 until 6 do Txt := "Txt"
+            end
+         end
 ###Limitations of dot notation
 
 The most important limitation on dot notation occurs with an object qualified by a class which itself has classes declared within its body or within the body of a prefixing class. This is shown in example 13.2a.
@@ -72,67 +72,67 @@ Examples 13.2: Limitations of dot notation.
 
 a) An illegal use of dot notation.
 
-   begin
-
-      class Outside;
-      begin
-
-         class Inside;
          begin
-            text InsideText;
-         end..of..Inside;
 
-         integer Int1;
-         text Text1;
+            class Outside;
+            begin
 
-      end--of--Outside;
+               class Inside;
+               begin
+                  text InsideText;
+               end..of..Inside;
 
-      Outside class Outside2;
-      begin
-         integer Int2;
-         text Text2;
-      end;
+               integer Int1;
+               text Text1;
 
-      ref(Outside) Outsider;
-      ref(Outside2) Outsider2;
+            end--of--Outside;
 
-      Outsider :- new Outside;
-      Outsider2 :- new Outside2;
-      Outsider.Text1 :- Copy("Illegal");
-      Outsider2.Int2 := 4
+            Outside class Outside2;
+            begin
+               integer Int2;
+               text Text2;
+            end;
 
-   end++of++program
+            ref(Outside) Outsider;
+            ref(Outside2) Outsider2;
+
+            Outsider :- new Outside;
+            Outsider2 :- new Outside2;
+            Outsider.Text1 :- Copy("Illegal");
+            Outsider2.Int2 := 4
+
+         end++of++program
 b) A legal version of the same program using inspect.
-   begin
-
-      class Outside;
-      begin
-
-         class Inside;
          begin
-            text InsideText;
-         end..of..Inside;
 
-         integer Int1;
-         text Text1;
+            class Outside;
+            begin
 
-      end--of--Outside;
+               class Inside;
+               begin
+                  text InsideText;
+               end..of..Inside;
 
-      Outside class Outside2;
-      begin
-         integer Int2;
-         text Text2;
-      end;
+               integer Int1;
+               text Text1;
 
-      ref(Outside) Outsider;
-      ref(Outside2) Outsider2;
+            end--of--Outside;
 
-      Outsider :- new Outside;
-      Outsider2 :- new Outside2;
-      inspect Outsider do Text1 :- Copy("Legal");
-      inspect Outsider2 do Int2 := 4
+            Outside class Outside2;
+            begin
+               integer Int2;
+               text Text2;
+            end;
 
-   end++of++program
+            ref(Outside) Outsider;
+            ref(Outside2) Outsider2;
+
+            Outsider :- new Outside;
+            Outsider2 :- new Outside2;
+            inspect Outsider do Text1 :- Copy("Legal");
+            inspect Outsider2 do Int2 := 4
+
+         end++of++program
 Extending inspect
 
 The simple inspect statement that we have used so far is useful so long as we know the type or qualification of the object being inspected. This may not always be sufficient.
@@ -163,87 +163,87 @@ Examples 13.3: Detecting None with otherwise.
 
 a) A program which fails to check for None.
 
-   begin
-
-      class Example;
-      begin
-         text Message;
-         Message :- Copy("Legal")
-      end..of..Example;
-
-      ref(Example) array References(0:10);
-      integer Counter;
-
-      comment Only every other element assigned to;
-      for Counter := 0 step 2 until 10 do References(Counter) :- new Example;
-
-      comment Every element inspected;
-      for Counter := 0 step 1 until 10 do
-         inspect References(Counter) do
          begin
-            OutText(Message);
-            OutImage
-         end--of--inspecting--element
 
-   end++of++program
+            class Example;
+            begin
+               text Message;
+               Message :- Copy("Legal")
+            end..of..Example;
+
+            ref(Example) array References(0:10);
+            integer Counter;
+
+            comment Only every other element assigned to;
+            for Counter := 0 step 2 until 10 do References(Counter) :- new Example;
+
+            comment Every element inspected;
+            for Counter := 0 step 1 until 10 do
+               inspect References(Counter) do
+               begin
+                  OutText(Message);
+                  OutImage
+               end--of--inspecting--element
+
+         end++of++program
 b) The same program using otherwise to check for None.
-   begin
-
-      class Example;
-      begin
-         text Message;
-         Message :- Copy("Legal")
-      end..of..Example;
-
-      ref(Example) array References(0:10);
-      integer Counter;
-
-      for Counter := 0 step 2 until 10 do References(Counter) :- new Example;
-
-      comment Still inspect every element, but use otherwise to report nones;
-      for Counter := 0 step 1 until 10 do
-         inspect References(Counter) do
          begin
-            OutText(Message);
-            OutImage
-         end--of--the--connection--block
-         otherwise
-         begin
-            OutText("Illegal");
-            OutImage
-         end--of--the--othrwise--clause
 
-   end++of++program
+            class Example;
+            begin
+               text Message;
+               Message :- Copy("Legal")
+            end..of..Example;
+
+            ref(Example) array References(0:10);
+            integer Counter;
+
+            for Counter := 0 step 2 until 10 do References(Counter) :- new Example;
+
+            comment Still inspect every element, but use otherwise to report nones;
+            for Counter := 0 step 1 until 10 do
+               inspect References(Counter) do
+               begin
+                  OutText(Message);
+                  OutImage
+               end--of--the--connection--block
+               otherwise
+               begin
+                  OutText("Illegal");
+                  OutImage
+               end--of--the--othrwise--clause
+
+         end++of++program
 c) The same program without inspect.
-   begin
-
-      class Example;
-      begin
-         text Message;
-         Message :- Copy("Legal")
-      end..of..Example;
-
-      ref(Example) array References(0:10);
-      integer Counter;
-
-      for Counter := 0 step 2 until 10 do References(Counter) :- new Example;
-
-      comment Use direct checking and dot notation;
-      for Counter := 0 step 1 until 10 do
-      begin
-         if References(Counter)=/=None then
          begin
-            OutText(References(Counter).Message);
-            OutImage
-         end--of--legal--reference--case
-         else
-         begin
-            OutText("Illegal");
-            OutImage
-         end--of--the--None--case
-      end**of**for**loop
 
-   end++of++program
+            class Example;
+            begin
+               text Message;
+               Message :- Copy("Legal")
+            end..of..Example;
+
+            ref(Example) array References(0:10);
+            integer Counter;
+
+            for Counter := 0 step 2 until 10 do References(Counter) :- new Example;
+
+            comment Use direct checking and dot notation;
+            for Counter := 0 step 1 until 10 do
+            begin
+               if References(Counter)=/=None then
+               begin
+                  OutText(References(Counter).Message);
+                  OutImage
+               end--of--legal--reference--case
+               else
+               begin
+                  OutText("Illegal");
+                  OutImage
+               end--of--the--None--case
+            end**of**for**loop
+
+         end++of++program
 ###The use of inspect plus when
 
 The inspect statement used so far allows us to treat None and one particular type of class object differently. By adding a feature called the when clause, we can treat a class object according to its actual type, out of a range of possible alternatives.
@@ -267,57 +267,57 @@ Within the extended inspect statement the otherwise clause, where present, is ex
 
 Example 13.4: Mixed list processing using when.
 
-   begin
+         begin
 
-      class A;
-      begin
-         ref(A) Link;
-         procedure Print; OutText("Class A");
-      end..of..A;
+            class A;
+            begin
+               ref(A) Link;
+               procedure Print; OutText("Class A");
+            end..of..A;
 
-      A class B;
-      begin
-         procedure Print; OutText("Class B");
-      end..of..B;
+            A class B;
+            begin
+               procedure Print; OutText("Class B");
+            end..of..B;
 
-      A class C;
-      begin
-         procedure Print; OutText("Class C");
-      end..of..C;
+            A class C;
+            begin
+               procedure Print; OutText("Class C");
+            end..of..C;
 
-      B class D;
-      begin
-         procedure Print; OutText("Class D");
-      end;
+            B class D;
+            begin
+               procedure Print; OutText("Class D");
+            end;
 
-      C class E;
-      begin
-         procedure Print; OutText("Class E");
-      end..of..E;
+            C class E;
+            begin
+               procedure Print; OutText("Class E");
+            end..of..E;
 
-      ref(A) Head, NextA;
+            ref(A) Head, NextA;
 
-      for NextA :- new B, new C, new D, new E do
-      begin
-         NextA.Link :- Head;
-         Head :- NextA
-      end--of--building--mixed--list;
+            for NextA :- new B, new C, new D, new E do
+            begin
+               NextA.Link :- Head;
+               Head :- NextA
+            end--of--building--mixed--list;
 
-      while NextA=/=None do
-      begin
-         NextA.Print; ! Always prints "Class A";
-         inspect NextA
-            when E do Print
-            when D do Print
-            when C do Print
-            when B do Print
-            when A do Print
-            otherwise OutText("Not a predicted subclass of A");
-         OutImage;
-         NextA :- NextA.Link
-      end--of--while--loop
+            while NextA=/=None do
+            begin
+               NextA.Print; ! Always prints "Class A";
+               inspect NextA
+                  when E do Print
+                  when D do Print
+                  when C do Print
+                  when B do Print
+                  when A do Print
+                  otherwise OutText("Not a predicted subclass of A");
+               OutImage;
+               NextA :- NextA.Link
+            end--of--while--loop
 
-   end++of++program
+         end++of++program
 ###A practical example - simple sorting and merging
 
 Example 13.5 shows the use of a when clause to help in processing records which are read in unsorted. The records are of four types and are marked by the contents of their first line. The first character of this line is 'M' for a male and 'F' for a female. The second character is 'A' for an accountant and 'D' for a dancer.
@@ -333,122 +333,122 @@ The two complementary actions of sorting and merging lists are fundamental to ma
 
 Example 13.5: Merging and sorting using inspect.
 
-   begin
-
-      class Linker;
-      begin
-         ref(Linker) Next, Sex, Employment;
-         text ID;
-      end--of--Linker;
-
-      Linker class Male_Dancer;
-      begin
-      
-         ! Should contain full details;
-
-      end--of--Male--Dancer;
-
-      Linker class Female_Dancer;
-      begin
-
-         ! Should contain full details;
-
-      end--of--Female--Dancer;
-
-      Linker class Male_Accountant;
-      begin
-
-         ! Should contain full details;
-
-      end--of--Male--Accountant;
-
-      Linker class Female_Accountant;
-      begin
-
-         ! Should contain full details;
-
-      end--of--Female--Accountant;
-
-      procedure Onto_List(Entry,Gender,Occupation);
-                         name Gender,Occupation;
-                         ref(Linker) Entry,Gender,Occupation;
-      begin
-         Entry.Sex :- Gender;
-         Gender :- Entry;
-         Entry.Employment :- Occupation;
-         Occupation :- Entry
-      end--of--Onto--List;
-
-      procedure Write_List(Heading, ListHead); text Heading;
-                                               ref(Linker) ListHead;
-      begin
-         Boolean SexList;
-         SexList := (ListHead==Males or ListHead==Females);
-         OutImage;
-         OutText(Heading);
-         OutImage;
-         OutImage;
-         while ListHead=/=None do
          begin
-            OutText(ListHead.ID);
-            OutImage;
-            if SexList then ListHead :- ListHead.Sex
-                       else ListHead :- ListHead.Employment
-         end
-      end--of--Write--List;
 
-      text Line;
-      ref(Linker) NextEntry,List,Males,Females,Dancers,Accountants;
+            class Linker;
+            begin
+               ref(Linker) Next, Sex, Employment;
+               text ID;
+            end--of--Linker;
 
-      comment First read the input onto a single list;
-
-      InImage;
-      Line :- Blanks(80);
-      while SysIn.Image.Strip ne ".end" do
-      begin
-         Line.SetPos(1);
-         Line := SysIn.Image;
-         if Line.GetChar='F' then
-         begin
-            if Line.GetChar='D' then NextEntry :- new Female_Dancer
-                                else NextEntry :- new Female_Accountant
-         end else begin
-            if Line.GetChar='A' then NextEntry :- new Male_Accountant
-                                   else NextEntry :- new Male_Dancer
-         end;
-         InImage;
-         NextEntry.ID :- Copy(SysIn.Image);
-         InImage;
-         NextEntry.Next :- List;
-         List :- NextEntry
-      end;
-
-      comment Now process the main list, forming threaded lists;
-
-      NextEntry :- List;
-      while NextEntry=/=None do
-      begin
-         inspect NextEntry
+            Linker class Male_Dancer;
+            begin
             
-            when Male_Dancer do Onto_List(NextEntry,Males,Dancers)
+               ! Should contain full details;
 
-            when Female_Dancer do Onto_List(NextEntry,Females,Dancers)
+            end--of--Male--Dancer;
 
-            when Male_Accountant do Onto_List(NextEntry,Males,Accountants)
+            Linker class Female_Dancer;
+            begin
 
-            when Female_Accountant do Onto_List(NextEntry,Females,Accountants);
+               ! Should contain full details;
 
-         NextEntry :- NextEntry.Next
-      end;
+            end--of--Female--Dancer;
 
-      comment Now write out by lists;
+            Linker class Male_Accountant;
+            begin
 
-      if Females=/=None then Write_List("Females",Females);
-      if Males=/=None then Write_List("Males",Males);
-      if Dancers=/=None then Write_List("Dancers",Dancers);
-      if Accountants=/=None then Write_List("Accountants",Accountants)
+               ! Should contain full details;
 
-   end++of++program
+            end--of--Male--Accountant;
+
+            Linker class Female_Accountant;
+            begin
+
+               ! Should contain full details;
+
+            end--of--Female--Accountant;
+
+            procedure Onto_List(Entry,Gender,Occupation);
+                               name Gender,Occupation;
+                               ref(Linker) Entry,Gender,Occupation;
+            begin
+               Entry.Sex :- Gender;
+               Gender :- Entry;
+               Entry.Employment :- Occupation;
+               Occupation :- Entry
+            end--of--Onto--List;
+
+            procedure Write_List(Heading, ListHead); text Heading;
+                                                     ref(Linker) ListHead;
+            begin
+               Boolean SexList;
+               SexList := (ListHead==Males or ListHead==Females);
+               OutImage;
+               OutText(Heading);
+               OutImage;
+               OutImage;
+               while ListHead=/=None do
+               begin
+                  OutText(ListHead.ID);
+                  OutImage;
+                  if SexList then ListHead :- ListHead.Sex
+                             else ListHead :- ListHead.Employment
+               end
+            end--of--Write--List;
+
+            text Line;
+            ref(Linker) NextEntry,List,Males,Females,Dancers,Accountants;
+
+            comment First read the input onto a single list;
+
+            InImage;
+            Line :- Blanks(80);
+            while SysIn.Image.Strip ne ".end" do
+            begin
+               Line.SetPos(1);
+               Line := SysIn.Image;
+               if Line.GetChar='F' then
+               begin
+                  if Line.GetChar='D' then NextEntry :- new Female_Dancer
+                                      else NextEntry :- new Female_Accountant
+               end else begin
+                  if Line.GetChar='A' then NextEntry :- new Male_Accountant
+                                         else NextEntry :- new Male_Dancer
+               end;
+               InImage;
+               NextEntry.ID :- Copy(SysIn.Image);
+               InImage;
+               NextEntry.Next :- List;
+               List :- NextEntry
+            end;
+
+            comment Now process the main list, forming threaded lists;
+
+            NextEntry :- List;
+            while NextEntry=/=None do
+            begin
+               inspect NextEntry
+                  
+                  when Male_Dancer do Onto_List(NextEntry,Males,Dancers)
+
+                  when Female_Dancer do Onto_List(NextEntry,Females,Dancers)
+
+                  when Male_Accountant do Onto_List(NextEntry,Males,Accountants)
+
+                  when Female_Accountant do Onto_List(NextEntry,Females,Accountants);
+
+               NextEntry :- NextEntry.Next
+            end;
+
+            comment Now write out by lists;
+
+            if Females=/=None then Write_List("Females",Females);
+            if Males=/=None then Write_List("Males",Males);
+            if Dancers=/=None then Write_List("Dancers",Dancers);
+            if Accountants=/=None then Write_List("Accountants",Accountants)
+
+         end++of++program
 ###Exercise
 
 13.1 A theatrical agent has a file of records of different kinds of artists. He also has a file of records of requests for artists to be sent for audition. Assume that there are artists who are actors, musicians, singers and comedians and that requests may be for any of these. Further, assume that requests may specify the sex of the required artist and the age, with the age given as child, youth, mature or elderly. Write a program, based on the techniques used in example 13.5, to match requests and artists and print lists of all suitable artists for each request and all suitable requests for each artist.
@@ -473,32 +473,32 @@ The feature used is based on the keyword qua and example 13.6 show two ways of u
 
 Example 13.6: Uses of qua.
 
-   begin
+         begin
 
-      class A;
-      begin
-         integer I,J;
-      end--of--A;
+            class A;
+            begin
+               integer I,J;
+            end--of--A;
 
-      A class B;
-      begin
-         text I,J;
-      end--of--B;
+            A class B;
+            begin
+               text I,J;
+            end--of--B;
 
-      ref(A) ARef1, ARef2;
-      ref(B) BRef;
+            ref(A) ARef1, ARef2;
+            ref(B) BRef;
 
-      ARef1 :- new B;
-      BRef  :- new B;
-      ARef2 :- new A;
+            ARef1 :- new B;
+            BRef  :- new B;
+            ARef2 :- new A;
 
-! a);   ARef1 qua B.I :- Copy("Getting inside");
+      ! a);   ARef1 qua B.I :- Copy("Getting inside");
 
-! b);   BRef  qua A.I := 4;
+      ! b);   BRef  qua A.I := 4;
 
-! c);   ARef2 qua B.I :- Copy("No inside to get to")
+      ! c);   ARef2 qua B.I :- Copy("No inside to get to")
 
-   end++of++program
+         end++of++program
 ###Syntax and semantics of reference expressions using qua
 
 The use of qua is in expressions giving a reference to a class object. Its syntax is any reference to a class object, followed by the keyword qua, followed by the name of a class.
@@ -517,130 +517,130 @@ Using this many more actions can be included as local procedure attributes or lo
 
 Example 13.7: Using this in 13.5.
 
-   begin
-
-      class Linker;
-      begin
-         ref(Linker) Next, Sex, Employment;
-         text ID;
-
-         procedure Add_to_List(LHead); name LHead; ref(Linker) LHead;
          begin
-            Next :- LHead;
-            LHead :- this Linker
-         end..of..Add..to..List;
 
-         procedure Onto_Lists(Gender,Occupation);
-             name Gender,Occupation;
-             ref(Linker) Gender,Occupation;
-         begin
-            Sex :- Gender;
-            Employment :- Occupation;
-            Gender :- Occupation :- this Linker
-         end..of..Onto..Lists;
+            class Linker;
+            begin
+               ref(Linker) Next, Sex, Employment;
+               text ID;
 
-         InImage;
-         ID :- Copy(SysIn.Image);
-         InImage;
-      end--of--Linker;
+               procedure Add_to_List(LHead); name LHead; ref(Linker) LHead;
+               begin
+                  Next :- LHead;
+                  LHead :- this Linker
+               end..of..Add..to..List;
 
-      Linker class Male_Dancer;
-      begin
-      
-         ! Should contain full details;
+               procedure Onto_Lists(Gender,Occupation);
+                   name Gender,Occupation;
+                   ref(Linker) Gender,Occupation;
+               begin
+                  Sex :- Gender;
+                  Employment :- Occupation;
+                  Gender :- Occupation :- this Linker
+               end..of..Onto..Lists;
 
-      end--of--Male--Dancer;
+               InImage;
+               ID :- Copy(SysIn.Image);
+               InImage;
+            end--of--Linker;
 
-      Linker class Female_Dancer;
-      begin
+            Linker class Male_Dancer;
+            begin
+            
+               ! Should contain full details;
 
-         ! Should contain full details;
+            end--of--Male--Dancer;
 
-      end--of--Female--Dancer;
+            Linker class Female_Dancer;
+            begin
 
-      Linker class Male_Accountant;
-      begin
+               ! Should contain full details;
 
-         ! Should contain full details;
+            end--of--Female--Dancer;
 
-      end--of--Male--Accountant;
+            Linker class Male_Accountant;
+            begin
 
-      Linker class Female_Accountant;
-      begin
+               ! Should contain full details;
 
-         ! Should contain full details;
+            end--of--Male--Accountant;
 
-      end--of--Female--Accountant;
+            Linker class Female_Accountant;
+            begin
 
-      procedure Write_List(Heading, ListHead); text Heading;
-                                               ref(Linker) ListHead;
-      begin
-         Boolean SexList;
-         SexList := (ListHead==Males or ListHead==Females);
-         OutImage;
-         OutText(Heading);
-         OutImage;
-         OutImage;
-         while ListHead=/=None do
-         begin
-            OutText(ListHead.ID);
-            OutImage;
-            if SexList then ListHead :- ListHead.Sex
-                       else ListHead :- ListHead.Employment
-         end
-      end--of--Write--List;
+               ! Should contain full details;
 
-      ref(Linker) NextEntry,List,Males,Females,Dancers,Accountants;
-      text Line;
+            end--of--Female--Accountant;
 
-      comment First read the input onto a single list;
+            procedure Write_List(Heading, ListHead); text Heading;
+                                                     ref(Linker) ListHead;
+            begin
+               Boolean SexList;
+               SexList := (ListHead==Males or ListHead==Females);
+               OutImage;
+               OutText(Heading);
+               OutImage;
+               OutImage;
+               while ListHead=/=None do
+               begin
+                  OutText(ListHead.ID);
+                  OutImage;
+                  if SexList then ListHead :- ListHead.Sex
+                             else ListHead :- ListHead.Employment
+               end
+            end--of--Write--List;
 
-      InImage;
-      Line :- Blanks(80);
-      while SysIn.Image.Strip ne ".end" do
-      begin
-         Line.SetPos(1);
-         Line := SysIn.Image;
-         if Line.GetChar='F' then
-         begin
-            if Line.GetChar='D' then NextEntry :- new Female_Dancer
-                                else NextEntry :- new Female_Accountant
-         end else begin
-            if Line.GetChar='A' then NextEntry :- new Male_Accountant
-                                else NextEntry :- new Male_Dancer;
-         end;
-         NextEntry.Add_to_List(List)
-      end;
+            ref(Linker) NextEntry,List,Males,Females,Dancers,Accountants;
+            text Line;
 
-      comment Now process the main list, forming threaded lists;
+            comment First read the input onto a single list;
 
-      NextEntry :- List;
-      while NextEntry=/=None do
-      begin
-         inspect NextEntry
+            InImage;
+            Line :- Blanks(80);
+            while SysIn.Image.Strip ne ".end" do
+            begin
+               Line.SetPos(1);
+               Line := SysIn.Image;
+               if Line.GetChar='F' then
+               begin
+                  if Line.GetChar='D' then NextEntry :- new Female_Dancer
+                                      else NextEntry :- new Female_Accountant
+               end else begin
+                  if Line.GetChar='A' then NextEntry :- new Male_Accountant
+                                      else NextEntry :- new Male_Dancer;
+               end;
+               NextEntry.Add_to_List(List)
+            end;
 
-            when Male_Dancer do Onto_Lists(Males,Dancers)
+            comment Now process the main list, forming threaded lists;
 
-            when Female_Dancer do Onto_Lists(Females,Dancers)
+            NextEntry :- List;
+            while NextEntry=/=None do
+            begin
+               inspect NextEntry
 
-            when Male_Accountant do Onto_Lists(Males,Accountants)
+                  when Male_Dancer do Onto_Lists(Males,Dancers)
 
-            when Female_Accountant do Onto_Lists(Females,Accountants);
+                  when Female_Dancer do Onto_Lists(Females,Dancers)
 
-         NextEntry :- NextEntry.Next
-      end;
+                  when Male_Accountant do Onto_Lists(Males,Accountants)
 
-      comment Now write out by lists;
+                  when Female_Accountant do Onto_Lists(Females,Accountants);
 
-      if Females=/=None then Write_List("Females",Females);
+               NextEntry :- NextEntry.Next
+            end;
 
-      if Males=/=None then Write_List("Males",Males);
+            comment Now write out by lists;
 
-      if Dancers=/=None then Write_List("Dancers",Dancers);
+            if Females=/=None then Write_List("Females",Females);
 
-      if Accountants=/=None then Write_List("Accountants",Accountants)
+            if Males=/=None then Write_List("Males",Males);
 
-   end++of++program
+            if Dancers=/=None then Write_List("Dancers",Dancers);
+
+            if Accountants=/=None then Write_List("Accountants",Accountants)
+
+         end++of++program
 ###this in inspect statements
 
 It is important to remember that the statement following the keyword do in a simple inspect and the statements in the when clauses of the extended inspect are treated as if they were inside the body of the object inspected. It is therefore possible to use this in these statements to refer to the inspected object.

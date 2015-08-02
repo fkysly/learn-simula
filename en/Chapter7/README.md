@@ -136,15 +136,15 @@ Values can be: purge/nopurge. Decides whether the physical is to be deleted when
 SetAccess is a Boolean procedure with a single text parameter, which must be one of the values given above or bytesize: followed by an integer. This is used to reset the appropriate mode value in the File. Where the mode is unrecognised or inappropriate for the type of file, SetAccess returns False. Otherwise it returns true.
 Table 7.1: Default modes for file types.
 
-    Mode             File type is            Affects
-                  In-   Out-     Direct-  
-    Shared      shared  noshared  noshared  Open
-    Append      N/A     noappend  noappend  Open
-    Create      N/A     anycreate nocreate  Open
-    Readwrite N/A       N/A     readwrite Open
-    Bytesize:n   *         *         *      Open
-    Rewind     norewind norewind    N/A   Open/Close
-    Purge    nopurge  nopurge     nopurge    Close
+    Mode              File type is              Affects
+                  In-      Out-     Direct-  
+    Shared      shared    noshared  noshared     Open
+    Append      N/A       noappend  noappend     Open
+    Create      N/A       anycreate nocreate     Open
+    Readwrite   N/A         N/A     readwrite    Open
+    Bytesize:n   *           *         *         Open
+    Rewind      norewind  norewind    N/A      Open/Close
+    Purge       nopurge   nopurge   nopurge      Close
 ###InImage
 
 The procedure InImage copies the next record from the external file or device into Image. This is equivalent to a text value assignment. If the external record is shorter than Image.Length then it is copied into the leftmost character locations in Image and the remaining character Positions are filled with spaces. If the external record is longer than Image.Length, calling InImage causes a runtime error to be reported.
@@ -257,7 +257,6 @@ Example 7.4: Use of LastItem in word counting.
                    OutImage;
                    Words.Close
                 end
-                begin
 ###Item oriented input
 
 Some procedures read in the sequence of characters in the real file as an item of a certain type. Most are described in {{ book.Chapter8 }}, but here are two useful ones.
@@ -316,7 +315,6 @@ Example 7.5: LastItem and InChar in word counting.
                    OutImage;
                    Words.Close
                 end
-                begin
 ###InText
 
 InText is a text procedure, with a single, integer value parameter. Its result is a text containing the next N characters in the real file, where N is the value of its integer parameter. It may include characters from more than one record in the real file, calling InImage as necessary.
@@ -621,6 +619,7 @@ Examples 7.11: Use of simple inspect. 7.11a.
                    end
                 end
 Example 7.12: Nested inspect statements.
+
                 begin
                    ref(PrintFile) P1;
                    ref(InFile) I1;

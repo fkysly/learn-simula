@@ -9,20 +9,20 @@ This situation is obviously going to crop up in most real programs. To deal with
 
 Example 5.1: A while loop.
 
-   begin 
-      comment Read and Total a stream of Positive numbers,
-              ending when a negative number is found;
-      integer Total,Next;
-      Next := InInt;            ! Read in an integer;
-      while Next>=0 do          ! Only perform the next statement if 
-                                       condition is true;
-      begin
-         Total := Total + Next; ! Update total;
-         Next := InInt;         ! Read in the Next integer;
-      end;                      ! Go back to the start of the while loop;
-      OutInt(Total,8);          ! When the condition fails, print the total;
-      OutImage
-   end
+       begin 
+          comment Read and Total a stream of Positive numbers,
+                  ending when a negative number is found;
+          integer Total,Next;
+          Next := InInt;            ! Read in an integer;
+          while Next>=0 do          ! Only perform the next statement if 
+                                           condition is true;
+          begin
+             Total := Total + Next; ! Update total;
+             Next := InInt;         ! Read in the Next integer;
+          end;                      ! Go back to the start of the while loop;
+          OutInt(Total,8);          ! When the condition fails, print the total;
+          OutImage
+       end
 This is a simple program and it is explained by its comments. Let us look at the syntax of the while loop statement, which may be used wherever any simple statement may be used.
 
 A while loop is the keyword while, followed by a condition, followed by the keyword do, followed by a statement.
